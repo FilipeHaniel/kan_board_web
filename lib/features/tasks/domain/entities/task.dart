@@ -8,4 +8,12 @@ class Task {
     required this.title,
     required this.status,
   });
+
+  factory Task.fromJson(Map<String, dynamic> json) {
+    return Task(
+      id: json['id'],
+      title: json['title'],
+      status: json['status'],
+    );
+  }
 }
