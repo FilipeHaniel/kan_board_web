@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kan_board_web/features/study/data/datasources/streak_datasource.dart';
 import 'package:kan_board_web/features/tasks/data/tasks_datasource.dart';
 import 'package:kan_board_web/features/tasks/domain/entities/task.dart';
 import 'package:kan_board_web/features/tasks/presentation/widgets/kanban_column.dart';
@@ -14,10 +15,14 @@ class _DashboardPageState extends State<DashboardPage> {
   final api = TasksDatasource();
   List<Task> tasks = [];
 
+  final streakApi = StreakDatasource();
+  int streak = 0;
+
   @override
   void initState() {
     super.initState();
     loadTasks();
+    loadStreak();
   }
 
   Future<void> loadTasks() async {
@@ -25,6 +30,14 @@ class _DashboardPageState extends State<DashboardPage> {
 
     setState(() {
       tasks = result;
+    });
+  }
+
+  Future<void> loadStreak() async {
+    final result = await streakApi.getStreak();
+
+    setState(() {
+      streak = result;
     });
   }
 
@@ -40,25 +53,41 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Dashboard')),
-      body: Row(
+      body: Column(
         children: [
-          KanbanColumn(
-            title: 'Backlog',
-            status: 'backlog',
-            tasks: tasks.where((t) => t.status == 'backlog').toList(),
-            onTaskDropped: moveTask,
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Text(
+              '🔥 Ritmo de Estudo: $streak dias',
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
-          KanbanColumn(
-            title: 'Hoje',
-            status: 'today',
-            tasks: tasks.where((t) => t.status == 'today').toList(),
-            onTaskDropped: moveTask,
-          ),
-          KanbanColumn(
-            title: 'Concluído',
-            status: 'done',
-            tasks: tasks.where((t) => t.status == 'done').toList(),
-            onTaskDropped: moveTask,
+          Expanded(
+            child: Row(
+              children: [
+                KanbanColumn(
+                  title: 'Backlog',
+                  status: 'backlog',
+                  tasks: tasks.where((t) => t.status == 'backlog').toList(),
+                  onTaskDropped: moveTask,
+                ),
+                KanbanColumn(
+                  title: 'Hoje',
+                  status: 'today',
+                  tasks: tasks.where((t) => t.status == 'today').toList(),
+                  onTaskDropped: moveTask,
+                ),
+                KanbanColumn(
+                  title: 'Concluído',
+                  status: 'done',
+                  tasks: tasks.where((t) => t.status == 'done').toList(),
+                  onTaskDropped: moveTask,
+                ),
+              ],
+            ),
           ),
         ],
       ),
