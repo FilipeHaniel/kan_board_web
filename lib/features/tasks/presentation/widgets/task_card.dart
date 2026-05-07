@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kan_board_web/features/study/presentation/pages/study_page.dart';
 import 'package:kan_board_web/features/tasks/domain/entities/task.dart';
 
 class TaskCard extends StatelessWidget {
@@ -8,11 +9,23 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: Text(task.title),
+    return GestureDetector(
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: Text(task.title),
+        ),
       ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => StudyPage(
+              taskTitle: task.title,
+            ),
+          ),
+        );
+      },
     );
   }
 }
