@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kan_board_web/features/review/data/datasourses/review_datasource.dart';
 import 'package:kan_board_web/features/study/data/datasources/streak_datasource.dart';
 import 'package:kan_board_web/features/tasks/data/tasks_datasource.dart';
 import 'package:kan_board_web/features/tasks/domain/entities/task.dart';
@@ -18,11 +19,15 @@ class _DashboardPageState extends State<DashboardPage> {
   final streakApi = StreakDatasource();
   int streak = 0;
 
+  final reviewApi = ReviewDatasource();
+  List<dynamic> reviews = [];
+
   @override
   void initState() {
     super.initState();
     loadTasks();
     loadStreak();
+    loadReviews();
   }
 
   Future<void> loadTasks() async {
@@ -49,6 +54,14 @@ class _DashboardPageState extends State<DashboardPage> {
     });
   }
 
+  Future<void> loadReviews() async {
+    final result = await reviewApi.getPendingReviews();
+
+    setState(() {
+      reviews = result;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,6 +77,10 @@ class _DashboardPageState extends State<DashboardPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text('🔁 Revisões pendentes: ${reviews.length}'),
           ),
           Expanded(
             child: Row(
