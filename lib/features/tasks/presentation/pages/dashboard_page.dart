@@ -3,7 +3,7 @@ import 'package:kan_board_web/features/review/data/datasourses/review_datasource
 import 'package:kan_board_web/features/study/data/datasources/streak_datasource.dart';
 import 'package:kan_board_web/features/tasks/data/tasks_datasource.dart';
 import 'package:kan_board_web/features/tasks/domain/entities/task.dart';
-import 'package:kan_board_web/features/tasks/presentation/widgets/kanban_column.dart';
+import 'package:kan_board_web/features/tasks/presentation/widgets/subject_section.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -64,6 +64,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    final subjects = tasks.map((t) => t.subject).toSet().toList();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Dashboard')),
       body: Column(
@@ -83,27 +85,27 @@ class _DashboardPageState extends State<DashboardPage> {
             child: Text('🔁 Revisões pendentes: ${reviews.length}'),
           ),
           Expanded(
-            child: Row(
-              children: [
-                KanbanColumn(
-                  title: 'Backlog',
-                  status: 'backlog',
-                  tasks: tasks.where((t) => t.status == 'backlog').toList(),
-                  onTaskDropped: moveTask,
-                ),
-                KanbanColumn(
-                  title: 'Hoje',
-                  status: 'today',
-                  tasks: tasks.where((t) => t.status == 'today').toList(),
-                  onTaskDropped: moveTask,
-                ),
-                KanbanColumn(
-                  title: 'Concluído',
-                  status: 'done',
-                  tasks: tasks.where((t) => t.status == 'done').toList(),
-                  onTaskDropped: moveTask,
-                ),
-              ],
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: subjects.map(
+                (subject) {
+                  final subjectTasks = tasks
+                      .where(
+                        (t) => t.subject == subject,
+                      )
+                      .toList();
+
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 40),
+
+                    child: SubjectSection(
+                      subject: subject,
+                      tasks: subjectTasks,
+                      onTaskDropped: moveTask,
+                    ),
+                  );
+                },
+              ).toList(),
             ),
           ),
         ],
