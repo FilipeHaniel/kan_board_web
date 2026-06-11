@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kan_board_web/core/layout/app_layout.dart';
+import 'package:kan_board_web/core/layout/content/kanban_area.dart';
 import 'package:kan_board_web/features/review/data/datasourses/review_datasource.dart';
 import 'package:kan_board_web/features/study/data/datasources/streak_datasource.dart';
 import 'package:kan_board_web/features/tasks/data/tasks_datasource.dart';
 import 'package:kan_board_web/features/tasks/domain/entities/task.dart';
-import 'package:kan_board_web/features/tasks/presentation/widgets/subject_section.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -64,51 +65,10 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   Widget build(BuildContext context) {
-    final subjects = tasks.map((t) => t.subject).toSet().toList();
-
-    return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard')),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(
-              '🔥 Ritmo de Estudo: $streak dias',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('🔁 Revisões pendentes: ${reviews.length}'),
-          ),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.all(16),
-              children: subjects.map(
-                (subject) {
-                  final subjectTasks = tasks
-                      .where(
-                        (t) => t.subject == subject,
-                      )
-                      .toList();
-
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 40),
-
-                    child: SubjectSection(
-                      subject: subject,
-                      tasks: subjectTasks,
-                      onTaskDropped: moveTask,
-                    ),
-                  );
-                },
-              ).toList(),
-            ),
-          ),
-        ],
+    return AppLayout(
+      child: KanbanArea(
+        tasks: tasks,
+        onTaskDropped: moveTask,
       ),
     );
   }

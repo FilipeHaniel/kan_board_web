@@ -21,46 +21,80 @@ class KanbanColumn extends StatelessWidget {
     return Expanded(
       child: DragTarget<Task>(
         onAcceptWithDetails: (details) {
-          final task = details.data;
-          onTaskDropped(task, status);
+          onTaskDropped(details.data, status);
         },
         builder: (context, candidateData, rejectedData) {
           return Container(
+            height: 200,
             margin: const EdgeInsets.all(8),
-            padding: const EdgeInsets.all(8),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: candidateData.isNotEmpty
-                  ? Colors.green[200]
-                  : Colors.grey[200],
-              borderRadius: BorderRadius.circular(8),
+                  ? Colors.green.shade100
+                  : Colors.grey.shade200,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(
+                color: Colors.grey.shade300,
+              ),
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
                   style: const TextStyle(
-                    fontWeight: FontWeight.bold,
                     fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 10),
-                ...tasks.map((task) {
-                  return Draggable<Task>(
-                    data: task,
-                    feedback: Material(
-                      child: Container(
-                        padding: const EdgeInsets.all(8),
-                        color: Colors.blue,
-                        child: Text(task.title),
-                      ),
-                    ),
-                    childWhenDragging: Opacity(
-                      opacity: 0.5,
-                      child: TaskCard(task: task),
-                    ),
-                    child: TaskCard(task: task),
-                  );
-                }),
+                const SizedBox(height: 12),
+                Divider(
+                  height: 1,
+                  color: Colors.grey.shade400,
+                ),
+                const SizedBox(height: 12),
+                Expanded(
+                  child: tasks.isEmpty
+                      ? Center(
+                          child: Text(
+                            'Nenhuma tarefa',
+                            style: TextStyle(
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: tasks.length,
+                          itemBuilder: (context, index) {
+                            final task = tasks[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: Draggable<Task>(
+                                data: task,
+                                feedback: Material(
+                                  elevation: 4,
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: SizedBox(
+                                    width: 250,
+                                    child: TaskCard(
+                                      task: task,
+                                    ),
+                                  ),
+                                ),
+                                childWhenDragging: Opacity(
+                                  opacity: 0.4,
+                                  child: TaskCard(
+                                    task: task,
+                                  ),
+                                ),
+                                child: TaskCard(
+                                  task: task,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                ),
               ],
             ),
           );

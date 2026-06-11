@@ -9,7 +9,9 @@ class TasksDatasource {
   );
 
   Future<List<Task>> getTasks() async {
+    print('GET /tasks');
     final response = await dio.get('/tasks');
+    print(response.data);
 
     return (response.data as List).map((json) => Task.fromJson(json)).toList();
   }
