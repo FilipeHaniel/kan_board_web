@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kan_board_web/features/tasks/presentation/pages/dashboard_page.dart';
+import 'package:kan_board_web/app/features/tasks/presentation/pages/dashboard_page.dart';
 
 void main() {
   runApp(const MyApp());
