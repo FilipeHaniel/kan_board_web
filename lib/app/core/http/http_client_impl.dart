@@ -1,18 +1,18 @@
 import 'package:dio/dio.dart';
 import 'package:kan_board_web/app/core/http/http_client.dart';
 
-class HttpClientImpl implements HttpClient {
+class DioHttpClient implements HttpClient {
   final Dio _dio;
 
-  HttpClientImpl({required Dio dio}) : _dio = dio;
+  DioHttpClient({required Dio dio}) : _dio = dio;
 
   @override
   Future<dynamic> get(
-    String path, {
+    String url, {
     Map<String, dynamic>? queryParameters,
   }) async {
     final response = await _dio.get(
-      path,
+      url,
       queryParameters: queryParameters,
     );
 
@@ -21,26 +21,61 @@ class HttpClientImpl implements HttpClient {
 
   @override
   Future<dynamic> post(
-    String path, {
+    String url, {
     dynamic data,
+    Map<String, dynamic>? queryParameters,
   }) async {
     final response = await _dio.post(
-      path,
+      url,
       data: data,
+      queryParameters: queryParameters,
     );
 
     return response.data;
   }
 
   @override
-  Future<dynamic> delete(String path) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<dynamic> put(
+    String url, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    final response = await _dio.put(
+      url,
+      data: data,
+      queryParameters: queryParameters,
+    );
+
+    return response.data;
   }
 
   @override
-  Future<dynamic> patch(String path, {data}) {
-    // TODO: implement patch
-    throw UnimplementedError();
+  Future<dynamic> patch(
+    String url, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    final response = await _dio.patch(
+      url,
+      data: data,
+      queryParameters: queryParameters,
+    );
+
+    return response.data;
+  }
+
+  @override
+  Future<dynamic> delete(
+    String url, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  }) async {
+    final response = await _dio.delete(
+      url,
+      data: data,
+      queryParameters: queryParameters,
+    );
+
+    return response.data;
   }
 }

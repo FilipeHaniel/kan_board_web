@@ -1,25 +1,28 @@
-import 'package:kan_board_web/app/core/storage/auth_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AuthLocalStorage implements AuthStorage {
+import 'auth_storage.dart';
+
+class LocalAuthStorage implements AuthStorage {
+  static const _tokenKey = 'access_token';
+
   @override
   Future<void> saveToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
 
-    await prefs.setString('token', token);
+    await prefs.setString(_tokenKey, token);
   }
 
   @override
   Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
 
-    return prefs.getString('token');
+    return prefs.getString(_tokenKey);
   }
 
   @override
   Future<void> clear() async {
     final prefs = await SharedPreferences.getInstance();
 
-    await prefs.remove('token');
+    await prefs.remove(_tokenKey);
   }
 }
