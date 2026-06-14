@@ -1,5 +1,29 @@
 import 'package:get_it/get_it.dart';
+import 'package:kan_board_web/app/core/http/dio_factory.dart';
+import 'package:kan_board_web/app/core/http/http_client.dart';
+import 'package:kan_board_web/app/core/http/http_client_impl.dart';
+import 'package:kan_board_web/app/core/logger/app_logger.dart';
+import 'package:kan_board_web/app/core/logger/logger_service.dart';
+import 'package:kan_board_web/app/core/storage/auth_storage.dart';
+import 'package:kan_board_web/app/core/storage/local_auth_storage.dart';
 
 GetIt getIt = GetIt.instance;
 
-Future<void> setupInjector() async {}
+Future<void> setupDependencies() async {
+  getIt.registerLazySingleton<AuthStorage>(
+    () => LocalAuthStorage(),
+  );
+
+  getIt.registerLazySingleton<AppLogger>(
+    () => LoggerService(),
+  );
+
+  getIt.registerLazySingleton<HttpClient>(
+    () => DioHttpClient(
+      dio: DioFactory.create(
+        getIt<AuthStorage>(),
+        getIt<AppLogger>(),
+      ),
+    ),
+  );
+}
