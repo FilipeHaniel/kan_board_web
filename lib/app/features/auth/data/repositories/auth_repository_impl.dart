@@ -1,4 +1,5 @@
 import 'package:kan_board_web/app/features/auth/data/datasources/auth_datasource.dart';
+import 'package:kan_board_web/app/features/auth/domain/entities/user_entity.dart';
 import 'package:kan_board_web/app/features/auth/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -18,5 +19,10 @@ class AuthRepositoryImpl implements AuthRepository {
     );
 
     return response.accessToken;
+  }
+
+  @override
+  Future<UserEntity> user() async {
+    return await _datasource.user();
   }
 }

@@ -1,5 +1,7 @@
 import 'package:kan_board_web/app/core/http/http_client.dart';
 import 'package:kan_board_web/app/features/auth/data/datasources/auth_datasource.dart';
+import 'package:kan_board_web/app/features/auth/data/models/login_model.dart';
+import 'package:kan_board_web/app/features/auth/data/models/user_model.dart';
 import 'package:kan_board_web/app/features/auth/domain/entities/login_entity.dart';
 
 class AuthDatasourceImpl implements AuthDatasource {
@@ -9,7 +11,7 @@ class AuthDatasourceImpl implements AuthDatasource {
     : _httpClient = httpClient;
 
   @override
-  Future<LoginEntity> login({
+  Future<LoginModel> login({
     required String email,
     required String password,
   }) async {
@@ -21,6 +23,13 @@ class AuthDatasourceImpl implements AuthDatasource {
       },
     );
 
-    return LoginEntity.fromJson(response.data);
+    return LoginModel.fromJson(response.data);
+  }
+
+  @override
+  Future<UserModel> user() async {
+    final response = await _httpClient.get('/auth/me');
+
+    return UserModel.fromJson(response.data);
   }
 }
