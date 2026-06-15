@@ -1,8 +1,10 @@
+import 'package:dio/dio.dart';
+import 'package:kan_board_web/app/core/exceptions/server_exception.dart';
+import 'package:kan_board_web/app/core/exceptions/unauthorized_exception.dart';
 import 'package:kan_board_web/app/core/http/http_client.dart';
 import 'package:kan_board_web/app/features/auth/data/datasources/auth_datasource.dart';
 import 'package:kan_board_web/app/features/auth/data/models/login_model.dart';
 import 'package:kan_board_web/app/features/auth/data/models/user_model.dart';
-import 'package:kan_board_web/app/features/auth/domain/entities/login_entity.dart';
 
 class AuthDatasourceImpl implements AuthDatasource {
   final HttpClient _httpClient;
@@ -15,15 +17,23 @@ class AuthDatasourceImpl implements AuthDatasource {
     required String email,
     required String password,
   }) async {
-    final response = await _httpClient.post(
-      '/auth/login',
-      data: {
-        'email': email,
-        'password': password,
-      },
-    );
+    try {
+      final response = await _httpClient.post(
+        '/auth/login',
+        data: {
+          'email': email,
+          'password': password,
+        },
+      );
 
-    return LoginModel.fromJson(response.data);
+      return LoginModel.fromJson(response.data);
+    } on DioException catch (error) {
+      if (error.response?.statusCode == 401) {
+        throw UnauthorizedException();
+      }
+
+      throw ServerException();
+    }
   }
 
   @override
