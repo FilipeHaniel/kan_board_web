@@ -1,34 +1,50 @@
 import 'package:bloc/bloc.dart';
+import 'package:kan_board_web/app/core/logger/app_logger.dart';
 import 'package:kan_board_web/app/core/result/result.dart';
 import 'package:kan_board_web/app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:kan_board_web/app/features/auth/presentation/cubit/login_state.dart';
 
 class LoginCubit extends Cubit<LoginState> {
-  final LoginUsecase _useCase;
+  final LoginUsecase _usecase;
+  final AppLogger _logger;
 
-  LoginCubit({required LoginUsecase useCase})
-    : _useCase = useCase,
+  LoginCubit({required LoginUsecase usecase, required AppLogger logger})
+    : _usecase = usecase,
+      _logger = logger,
       super(LoginInitial());
 
   Future<void> login(
     String email,
     String password,
   ) async {
-    emit(LoginLoading());
+    try {
+      emit(LoginLoading());
+      _logger.info('Login attempt for email: $email');
 
-    final result = await _useCase(
-      email: email,
-      password: password,
-    );
+      final result = await _usecase(
+        email: email,
+        password: password,
+      );
 
-    switch (result) {
-      case Success():
-        emit(LoginSuccess());
+      switch (result) {
+        case Success():
+          _logger.info('Login successful for email: $email');
+          emit(LoginSuccess());
 
-      case FailureResult():
-        emit(
-          LoginError(result.failure.message),
-        );
+        case FailureResult():
+          _logger.error('Login failed for email: $email');
+          emit(
+            LoginError(result.failure.message),
+          );
+      }
+    } catch (error) {
+      _logger.error(
+        'Erro inesperado no Cubit',
+        error: error,
+        stackTrace: StackTrace.current,
+      );
+
+      emit(LoginError('An unexpected error occurred. Please try again.'));
     }
   }
 }

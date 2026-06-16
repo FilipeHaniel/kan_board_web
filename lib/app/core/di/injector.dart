@@ -6,8 +6,9 @@ import 'package:kan_board_web/app/core/logger/app_logger.dart';
 import 'package:kan_board_web/app/core/logger/logger_service.dart';
 import 'package:kan_board_web/app/core/storage/auth_storage.dart';
 import 'package:kan_board_web/app/core/storage/local_auth_storage.dart';
+import 'package:kan_board_web/app/features/auth/auth_injector.dart';
 
-GetIt getIt = GetIt.instance;
+final getIt = GetIt.instance;
 
 Future<void> setupDependencies() async {
   getIt.registerLazySingleton<AuthStorage>(
@@ -26,4 +27,6 @@ Future<void> setupDependencies() async {
       ),
     ),
   );
+
+  setupAuthDependencies(getIt);
 }

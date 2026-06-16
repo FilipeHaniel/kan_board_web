@@ -10,16 +10,21 @@ class LoggerService implements AppLogger {
   }
 
   @override
+  void debug(String message) {
+    _logger.d(message);
+  }
+
+  @override
   void warning(String message) {
     _logger.w(message);
   }
 
   @override
   void error(
-    String message, [
+    String message, {
     Object? error,
     StackTrace? stackTrace,
-  ]) {
+  }) {
     _logger.e(
       message,
       error: error,

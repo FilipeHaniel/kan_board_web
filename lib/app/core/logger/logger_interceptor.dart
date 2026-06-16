@@ -37,8 +37,8 @@ class LoggerInterceptor extends Interceptor {
   ) {
     _logger.error(
       '[ERROR] ${err.requestOptions.path}',
-      err,
-      err.stackTrace,
+      error: err,
+      stackTrace: err.stackTrace,
     );
 
     handler.next(err);

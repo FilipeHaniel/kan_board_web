@@ -18,7 +18,7 @@ class DioFactory {
     );
 
     dio.interceptors.addAll([
-      AuthInterceptor(storage: storage),
+      AuthInterceptor(storage: storage, logger: logger),
       LoggerInterceptor(logger: logger),
       ErrorInterceptor(),
     ]);
