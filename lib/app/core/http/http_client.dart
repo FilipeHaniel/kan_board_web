@@ -1,28 +1,28 @@
 abstract class HttpClient {
-  Future<dynamic> get(
+  Future<Map<String, dynamic>> get(
     String url, {
     Map<String, dynamic>? queryParameters,
   });
 
-  Future<dynamic> post(
-    String url, {
-    dynamic data,
-    Map<String, dynamic>? queryParameters,
-  });
-
-  Future<dynamic> put(
+  Future<Map<String, dynamic>> post(
     String url, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
   });
 
-  Future<dynamic> patch(
+  Future<Map<String, dynamic>> put(
     String url, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
   });
 
-  Future<dynamic> delete(
+  Future<Map<String, dynamic>> patch(
+    String url, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+  });
+
+  Future<Map<String, dynamic>> delete(
     String url, {
     dynamic data,
     Map<String, dynamic>? queryParameters,

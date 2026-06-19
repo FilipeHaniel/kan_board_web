@@ -13,10 +13,10 @@ class LoginCubit extends Cubit<LoginState> {
       _logger = logger,
       super(LoginInitial());
 
-  Future<void> login(
-    String email,
-    String password,
-  ) async {
+  Future<void> login({
+    required String email,
+    required String password,
+  }) async {
     try {
       emit(LoginLoading());
       _logger.info('Login attempt for email: $email');
@@ -26,22 +26,28 @@ class LoginCubit extends Cubit<LoginState> {
         password: password,
       );
 
+      _logger.info('Login result for email: $email - $result');
+
       switch (result) {
         case Success():
           _logger.info('Login successful for email: $email');
           emit(LoginSuccess());
+
+          return;
 
         case FailureResult():
           _logger.error('Login failed for email: $email');
           emit(
             LoginError(result.failure.message),
           );
+
+          return;
       }
-    } catch (error) {
+    } catch (error, stackTrace) {
       _logger.error(
-        'Erro inesperado no Cubit',
+        'unexpected error during login for email: $email',
         error: error,
-        stackTrace: StackTrace.current,
+        stackTrace: stackTrace,
       );
 
       emit(LoginError('An unexpected error occurred. Please try again.'));

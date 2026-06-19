@@ -17,6 +17,8 @@ class AuthInterceptor extends Interceptor {
   ) async {
     final token = await _storage.getToken();
 
+    _logger.info('TOKEN RECOVERED: $token');
+
     if (token != null) {
       options.headers['Authorization'] = 'Bearer $token';
     }

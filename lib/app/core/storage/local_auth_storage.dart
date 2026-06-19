@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'auth_storage.dart';
@@ -7,9 +9,20 @@ class LocalAuthStorage implements AuthStorage {
 
   @override
   Future<void> saveToken(String token) async {
-    final prefs = await SharedPreferences.getInstance();
+    try {
+      final prefs = await SharedPreferences.getInstance();
 
-    await prefs.setString(_tokenKey, token);
+      final success = await prefs.setString(
+        _tokenKey,
+        token,
+      );
+
+      log('TOKEN SALVO? $success');
+    } catch (error, stackTrace) {
+      log('Erro ao salvar token: $error');
+      log('Stack trace: $stackTrace');
+      rethrow;
+    }
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:kan_board_web/app/core/http/http_client.dart';
 import 'package:kan_board_web/app/core/logger/app_logger.dart';
+import 'package:kan_board_web/app/core/storage/auth_storage.dart';
 import 'package:kan_board_web/app/features/auth/data/datasources/auth_datasource.dart';
 import 'package:kan_board_web/app/features/auth/data/datasources/auth_datasource_impl.dart';
 import 'package:kan_board_web/app/features/auth/data/repositories/auth_repository_impl.dart';
@@ -22,7 +23,7 @@ void setupAuthDependencies(GetIt getIt) {
   getIt.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
       datasource: getIt<AuthDatasource>(),
-      // storage: getIt<AuthStorage>(),
+      storage: getIt<AuthStorage>(),
       logger: getIt<AppLogger>(),
     ),
   );

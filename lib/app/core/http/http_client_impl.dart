@@ -7,7 +7,7 @@ class DioHttpClient implements HttpClient {
   DioHttpClient({required Dio dio}) : _dio = dio;
 
   @override
-  Future<dynamic> get(
+  Future<Map<String, dynamic>> get(
     String url, {
     Map<String, dynamic>? queryParameters,
   }) async {
@@ -20,7 +20,7 @@ class DioHttpClient implements HttpClient {
   }
 
   @override
-  Future<dynamic> post(
+  Future<Map<String, dynamic>> post(
     String url, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
@@ -31,11 +31,11 @@ class DioHttpClient implements HttpClient {
       queryParameters: queryParameters,
     );
 
-    return response.data;
+    return Map<String, dynamic>.from(response.data);
   }
 
   @override
-  Future<dynamic> put(
+  Future<Map<String, dynamic>> put(
     String url, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
@@ -50,7 +50,7 @@ class DioHttpClient implements HttpClient {
   }
 
   @override
-  Future<dynamic> patch(
+  Future<Map<String, dynamic>> patch(
     String url, {
     dynamic data,
     Map<String, dynamic>? queryParameters,
@@ -65,7 +65,7 @@ class DioHttpClient implements HttpClient {
   }
 
   @override
-  Future<dynamic> delete(
+  Future<Map<String, dynamic>> delete(
     String url, {
     dynamic data,
     Map<String, dynamic>? queryParameters,

@@ -35,7 +35,10 @@ class AuthDatasourceImpl implements AuthDatasource {
 
       _logger.info('Login successful for email: $email');
 
-      return LoginModel.fromJson(response.data);
+      _logger.info('LOGIN RESPONSE');
+      _logger.info(response.toString());
+
+      return LoginModel.fromJson(response);
     } on DioException catch (error) {
       _logger.error('Login failed for email: $email', error: error);
       if (error.response?.statusCode == 401) {
@@ -55,7 +58,7 @@ class AuthDatasourceImpl implements AuthDatasource {
 
       _logger.info('User information fetched successfully');
 
-      return UserModel.fromJson(response.data);
+      return UserModel.fromJson(response);
     } on Exception catch (error) {
       _logger.error('Failed to fetch user information', error: error);
       throw ServerException();
