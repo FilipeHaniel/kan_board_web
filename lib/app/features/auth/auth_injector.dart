@@ -10,6 +10,7 @@ import 'package:kan_board_web/app/features/auth/domain/usecases/get_current_user
 import 'package:kan_board_web/app/features/auth/domain/usecases/get_current_user_usecase_impl.dart';
 import 'package:kan_board_web/app/features/auth/domain/usecases/login_usecase.dart';
 import 'package:kan_board_web/app/features/auth/domain/usecases/login_usecase_impl.dart';
+import 'package:kan_board_web/app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:kan_board_web/app/features/auth/presentation/cubit/login_cubit.dart';
 
 void setupAuthDependencies(GetIt getIt) {
@@ -43,6 +44,14 @@ void setupAuthDependencies(GetIt getIt) {
   getIt.registerFactory(
     () => LoginCubit(
       usecase: getIt<LoginUsecase>(),
+      logger: getIt<AppLogger>(),
+    ),
+  );
+
+  getIt.registerFactory(
+    () => AuthCubit(
+      storage: getIt<AuthStorage>(),
+      getCurrentUserUsecase: getIt<GetCurrentUserUsecase>(),
       logger: getIt<AppLogger>(),
     ),
   );
