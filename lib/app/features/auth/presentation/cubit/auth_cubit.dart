@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:kan_board_web/app/core/logger/app_logger.dart';
+import 'package:kan_board_web/app/core/result/result.dart';
 import 'package:kan_board_web/app/core/storage/auth_storage.dart';
 import 'package:kan_board_web/app/features/auth/domain/usecases/get_current_user_usecase.dart';
 import 'package:kan_board_web/app/features/auth/presentation/cubit/auth_state.dart';
@@ -18,23 +19,34 @@ class AuthCubit extends Cubit<AuthState> {
        _logger = logger,
        super(AuthInitial());
 
-  Future<void> checkAuthentication() async {
+  Future<void> checkAuth() async {
     try {
       emit(AuthLoading());
 
       final token = await _storage.getToken();
 
-      if (token == null) {
+      if (token == null || token.isEmpty) {
         emit(Unauthenticated());
+
         return;
       }
 
-      final user = await _getCurrentUserUsecase();
+      final result = await _getCurrentUserUsecase();
 
-      emit(Authenticated(user));
+      switch (result) {
+        case Success():
+          emit(
+            Authenticated(result.data),
+          );
+
+        case FailureResult():
+          await _storage.clear();
+
+          emit(Unauthenticated());
+      }
     } catch (error, stackTrace) {
       _logger.error(
-        'Failed to check auth',
+        'Auth check failed',
         error: error,
         stackTrace: stackTrace,
       );

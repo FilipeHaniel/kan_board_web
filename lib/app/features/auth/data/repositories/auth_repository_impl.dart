@@ -61,13 +61,21 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<UserEntity> user() async {
+  Future<Result<UserEntity>> user() async {
     try {
-      _logger.info('Fetching user information');
-      return await _datasource.user();
-    } on Exception catch (error) {
-      _logger.error('Failed to fetch user information: $error');
-      throw Exception('Failed to fetch user information: $error');
+      _logger.info('Fetching current user');
+
+      final user = await _datasource.user();
+
+      return Success(user);
+    } on UnauthorizedException {
+      return FailureResult(
+        UnauthorizedFailure(),
+      );
+    } on NetworkException {
+      return FailureResult(
+        NetworkFailure(),
+      );
     }
   }
 }
