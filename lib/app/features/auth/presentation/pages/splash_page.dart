@@ -10,21 +10,26 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<AuthCubit>()..checkAuthentication(),
+      create: (_) => getIt<AuthCubit>()..checkAuth(),
       child: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
-          if (state is Authenticated) {
-            Navigator.pushReplacementNamed(
-              context,
-              '/dashboard',
-            );
-          }
+          switch (state) {
+            case Authenticated():
+              Navigator.pushReplacementNamed(
+                context,
+                '/dashboard',
+              );
 
-          if (state is Unauthenticated) {
-            Navigator.pushReplacementNamed(
-              context,
-              '/login',
-            );
+            case Unauthenticated():
+              Navigator.pushReplacementNamed(
+                context,
+                '/login',
+              );
+
+            case AuthInitial():
+            case AuthLoading():
+            case AuthError():
+              break;
           }
         },
         child: const Scaffold(

@@ -35,9 +35,7 @@ class AuthCubit extends Cubit<AuthState> {
 
       switch (result) {
         case Success():
-          emit(
-            Authenticated(result.data),
-          );
+          emit(Authenticated(result.data));
 
         case FailureResult():
           await _storage.clear();
