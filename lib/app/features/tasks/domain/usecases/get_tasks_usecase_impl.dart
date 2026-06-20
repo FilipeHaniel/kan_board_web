@@ -4,12 +4,14 @@ import 'package:kan_board_web/app/features/tasks/domain/repositories/tasks_repos
 import 'package:kan_board_web/app/features/tasks/domain/usecases/get_tasks_usecase.dart';
 
 class GetTasksUsecaseImpl implements GetTasksUsecase {
-  final TasksRepository repository;
+  final TasksRepository _repository;
 
-  GetTasksUsecaseImpl({required this.repository});
+  GetTasksUsecaseImpl({
+    required TasksRepository repository,
+  }) : _repository = repository;
 
   @override
   Future<Result<List<TaskEntity>>> call() {
-    return repository.getTasks();
+    return _repository.getTasks();
   }
 }
