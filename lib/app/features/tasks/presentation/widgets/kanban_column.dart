@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kan_board_web/app/features/tasks/domain/entities/task.dart';
+import 'package:kan_board_web/app/features/tasks/domain/entities/task_entity.dart';
 import 'task_card.dart';
 
 class KanbanColumn extends StatelessWidget {
   final String title;
   final String status;
-  final List<Task> tasks;
-  final Function(Task, String) onTaskDropped;
+  final List<TaskEntity> tasks;
+  final Function(TaskEntity, String) onTaskDropped;
 
   const KanbanColumn({
     super.key,
@@ -19,7 +19,7 @@ class KanbanColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: DragTarget<Task>(
+      child: DragTarget<TaskEntity>(
         onAcceptWithDetails: (details) {
           onTaskDropped(details.data, status);
         },
@@ -69,7 +69,7 @@ class KanbanColumn extends StatelessWidget {
                             final task = tasks[index];
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 8),
-                              child: Draggable<Task>(
+                              child: Draggable<TaskEntity>(
                                 data: task,
                                 feedback: Material(
                                   elevation: 4,

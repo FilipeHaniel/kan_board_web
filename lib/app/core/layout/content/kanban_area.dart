@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kan_board_web/app/features/tasks/domain/entities/task.dart';
+import 'package:kan_board_web/app/features/tasks/domain/entities/task_entity.dart';
 import 'package:kan_board_web/app/features/tasks/presentation/widgets/subject_section.dart';
 
 class KanbanArea extends StatelessWidget {
-  final List<Task> tasks;
-  final Function(Task, String) onTaskDropped;
+  final List<TaskEntity> tasks;
+  final Function(TaskEntity, String) onTaskDropped;
 
   const KanbanArea({
     super.key,

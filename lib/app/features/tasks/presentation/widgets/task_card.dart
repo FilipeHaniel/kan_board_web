@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kan_board_web/app/features/study/presentation/pages/study_page.dart';
-import 'package:kan_board_web/app/features/tasks/domain/entities/task.dart';
+import 'package:kan_board_web/app/features/tasks/domain/entities/task_entity.dart';
 
 class TaskCard extends StatelessWidget {
-  final Task task;
+  final TaskEntity task;
 
   const TaskCard({super.key, required this.task});
 
