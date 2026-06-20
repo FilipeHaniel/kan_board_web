@@ -33,7 +33,7 @@ class LocalAuthStorage implements AuthStorage {
   }
 
   @override
-  Future<void> clear() async {
+  Future<void> removeToken() async {
     final prefs = await SharedPreferences.getInstance();
 
     await prefs.remove(_tokenKey);

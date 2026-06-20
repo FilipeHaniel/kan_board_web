@@ -61,6 +61,25 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<void> logout() async {
+    try {
+      _logger.info('Logging out user');
+
+      await _storage.removeToken();
+
+      _logger.info('Token removed successfully');
+    } catch (error, stackTrace) {
+      _logger.error(
+        'Error during logout',
+        error: error,
+        stackTrace: stackTrace,
+      );
+
+      rethrow;
+    }
+  }
+
+  @override
   Future<Result<UserEntity>> user() async {
     try {
       _logger.info('Fetching current user');

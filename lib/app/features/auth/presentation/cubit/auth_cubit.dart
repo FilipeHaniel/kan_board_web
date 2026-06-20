@@ -3,19 +3,23 @@ import 'package:kan_board_web/app/core/logger/app_logger.dart';
 import 'package:kan_board_web/app/core/result/result.dart';
 import 'package:kan_board_web/app/core/storage/auth_storage.dart';
 import 'package:kan_board_web/app/features/auth/domain/usecases/get_current_user_usecase.dart';
+import 'package:kan_board_web/app/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:kan_board_web/app/features/auth/presentation/cubit/auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final AuthStorage _storage;
   final GetCurrentUserUsecase _getCurrentUserUsecase;
+  final LogoutUsecase _logoutUsecase;
   final AppLogger _logger;
 
   AuthCubit({
     required AuthStorage storage,
     required GetCurrentUserUsecase getCurrentUserUsecase,
+    required LogoutUsecase logoutUsecase,
     required AppLogger logger,
   }) : _storage = storage,
        _getCurrentUserUsecase = getCurrentUserUsecase,
+       _logoutUsecase = logoutUsecase,
        _logger = logger,
        super(AuthInitial());
 
@@ -38,7 +42,7 @@ class AuthCubit extends Cubit<AuthState> {
           emit(Authenticated(result.data));
 
         case FailureResult():
-          await _storage.clear();
+          await _storage.removeToken();
 
           emit(Unauthenticated());
       }
@@ -55,11 +59,11 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> logout() async {
     try {
-      await _storage.clear();
+      emit(AuthLoading());
 
-      emit(
-        Unauthenticated(),
-      );
+      await _logoutUsecase();
+
+      emit(Unauthenticated());
     } catch (error, stackTrace) {
       _logger.error(
         'Failed to logout',
