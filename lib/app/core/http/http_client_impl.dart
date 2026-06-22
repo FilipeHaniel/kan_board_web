@@ -7,7 +7,7 @@ class DioHttpClient implements HttpClient {
   DioHttpClient({required Dio dio}) : _dio = dio;
 
   @override
-  Future<Map<String, dynamic>> get(
+  Future<dynamic> get(
     String url, {
     Map<String, dynamic>? queryParameters,
   }) async {

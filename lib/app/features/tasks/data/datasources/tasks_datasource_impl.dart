@@ -22,11 +22,30 @@ class TasksDatasourceImpl implements TasksDatasource {
 
       final response = await _httpClient.get('/tasks');
 
+      _logger.info('Tasks fetched successfully');
+      // _logger.info('$response');
+
       final tasks = (response as List)
           .map((json) => TaskModel.fromJson(json))
           .toList();
 
-      _logger.info('${tasks.length} tasks loaded successfully');
+      _logger.info(
+        tasks.map((e) => e.subject).toList().toString(),
+      );
+
+      _logger.warning('${tasks.length} tasks loaded successfully');
+
+      _logger.warning(
+        'IDs: ${tasks.map((e) => e.id).toList()}',
+      );
+
+      _logger.warning(
+        tasks
+            .map(
+              (e) => '${e.subject} | ${e.division} | ${e.title}',
+            )
+            .join('\n'),
+      );
 
       return tasks;
     } on DioException catch (error) {
@@ -50,16 +69,18 @@ class TasksDatasourceImpl implements TasksDatasource {
       await _httpClient.patch(
         '/tasks/$taskId/move',
         data: {
-          'status': status,
+          'status': status.toUpperCase(),
         },
       );
 
       _logger.info('Task moved successfully');
     } on DioException catch (error, stackTrace) {
       _logger.error(
-        'Failed to move task',
-        error: error,
-        stackTrace: stackTrace,
+        'Status code: ${error.response?.statusCode}',
+      );
+
+      _logger.error(
+        'Response body: ${error.response?.data}',
       );
 
       _logger.error(

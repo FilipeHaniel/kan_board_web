@@ -8,6 +8,7 @@ import 'package:kan_board_web/app/core/session/app_session.dart';
 import 'package:kan_board_web/app/core/storage/auth_storage.dart';
 import 'package:kan_board_web/app/core/storage/local_auth_storage.dart';
 import 'package:kan_board_web/app/features/auth/auth_injector.dart';
+import 'package:kan_board_web/app/features/tasks/task_injector.dart';
 
 final getIt = GetIt.instance;
 
@@ -34,4 +35,6 @@ Future<void> setupDependencies() async {
   );
 
   setupAuthDependencies(getIt);
+
+  setupTasksDependencies(getIt);
 }

@@ -1,5 +1,5 @@
 abstract class HttpClient {
-  Future<Map<String, dynamic>> get(
+  Future<dynamic> get(
     String url, {
     Map<String, dynamic>? queryParameters,
   });

@@ -55,34 +55,37 @@ class TasksCubit extends Cubit<TasksState> {
     required String taskId,
     required String status,
   }) async {
-    try {
-      _logger.info('Movendo task: $taskId para status: $status');
-      final result = await _moveTaskUsecase(
-        taskId: taskId,
-        status: status,
-      );
+    final currentState = state;
 
-      switch (result) {
-        case Success():
-          _logger.info('Task movida com sucesso');
-          await loadTasks();
+    if (currentState is! TasksSuccess) return;
 
-        case FailureResult(failure: final failure):
-          _logger.error('Erro ao mover task: ${failure.message}');
-          emit(TasksError(failure.message));
+    final oldTasks = currentState.tasks;
+
+    final updatedTasks = oldTasks.map((task) {
+      if (task.id == taskId) {
+        return task.copyWith(status: status);
       }
-    } catch (error, stackTrace) {
-      _logger.error(
-        'Erro ao mover task',
-        error: error,
-        stackTrace: stackTrace,
-      );
-      _logger.error('Erro inesperado ao mover task');
-      emit(
-        TasksError(
-          'Erro inesperado',
-        ),
-      );
+
+      return task;
+    }).toList();
+
+    emit(TasksSuccess(tasks: updatedTasks));
+
+    final result = await _moveTaskUsecase(
+      taskId: taskId,
+      status: status,
+    );
+
+    switch (result) {
+      case Success():
+        break;
+
+      case FailureResult():
+        emit(TasksSuccess(tasks: oldTasks));
+
+        emit(
+          TasksError(result.failure.message),
+        );
     }
   }
 }

@@ -4,7 +4,7 @@ class TaskEntity {
   final String content;
   final String division;
   final String subject;
-  String status;
+  final String status;
 
   TaskEntity({
     required this.id,
@@ -14,4 +14,22 @@ class TaskEntity {
     required this.subject,
     required this.status,
   });
+
+  TaskEntity copyWith({
+    String? id,
+    String? title,
+    String? content,
+    String? status,
+    String? subject,
+    String? division,
+  }) {
+    return TaskEntity(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      content: content ?? this.content,
+      status: status ?? this.status,
+      subject: subject ?? this.subject,
+      division: division ?? this.division,
+    );
+  }
 }

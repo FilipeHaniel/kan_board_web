@@ -14,7 +14,7 @@ class KanbanArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final subjects = tasks.map((task) => task.subject).toSet().toList();
+    final subjects = tasks.map((task) => task.subject).toSet().toList()..sort();
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
