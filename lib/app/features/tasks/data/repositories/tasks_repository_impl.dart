@@ -17,11 +17,11 @@ class TasksRepositoryImpl implements TasksRepository {
        _logger = logger;
 
   @override
-  Future<Result<List<TaskEntity>>> getTasks() async {
+  Future<Result<List<TaskEntity>>> getTasks({required String goalId}) async {
     try {
       _logger.info('Repository getTasks');
 
-      final tasks = await _datasource.getTasks();
+      final tasks = await _datasource.getTasks(goalId: goalId);
 
       return Success(tasks);
     } on ServerException {

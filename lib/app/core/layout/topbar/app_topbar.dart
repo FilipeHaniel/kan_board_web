@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:kan_board_web/app/core/layout/topbar/topbar_info_chip.dart';
 import 'package:kan_board_web/app/core/layout/topbar/topbar_user_menu.dart';
+import 'package:kan_board_web/app/features/goals/domain/entities/goal_entity.dart';
 
 class AppTopbar extends StatelessWidget {
-  const AppTopbar({super.key});
+  final GoalEntity goal;
+
+  const AppTopbar({
+    required this.goal,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +24,10 @@ class AppTopbar extends StatelessWidget {
           ),
         ),
       ),
-      child: const Row(
+      child: Row(
         children: [
+          Text(goal.title),
+          SizedBox(width: 20),
           TopbarInfoChip(
             title: '🔥 Ritmo',
             value: '7 dias',

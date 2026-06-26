@@ -19,13 +19,13 @@ class TasksCubit extends Cubit<TasksState> {
        _logger = logger,
        super(TasksInitial());
 
-  Future<void> loadTasks() async {
+  Future<void> loadTasks({required String goalId}) async {
     try {
       _logger.info('Carregando tasks');
 
       emit(TasksLoading());
 
-      final result = await _getTasksUsecase();
+      final result = await _getTasksUsecase(goalId: goalId);
 
       switch (result) {
         case Success(data: final tasks):

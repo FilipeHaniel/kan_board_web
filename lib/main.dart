@@ -7,6 +7,8 @@ import 'package:kan_board_web/app/core/routes/app_routes.dart';
 import 'package:kan_board_web/app/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:kan_board_web/app/features/auth/presentation/pages/login_page.dart';
 import 'package:kan_board_web/app/features/auth/presentation/pages/splash_page.dart';
+import 'package:kan_board_web/app/features/goals/domain/entities/goal_entity.dart';
+import 'package:kan_board_web/app/features/goals/presentation/pages/goals_page.dart';
 import 'package:kan_board_web/app/features/tasks/presentation/pages/dashboard_page.dart';
 
 void main() {
@@ -38,7 +40,14 @@ class MyApp extends StatelessWidget {
           create: (_) => getIt<LoginCubit>(),
           child: const LoginPage(),
         ),
-        AppRoutes.dashboard: (_) => const DashboardPage(),
+        AppRoutes.goals: (_) => const GoalsPage(),
+        AppRoutes.dashboard: (context) {
+          final goal = ModalRoute.of(context)!.settings.arguments as GoalEntity;
+
+          return DashboardPage(
+            goal: goal,
+          );
+        },
       },
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFF3F4F6),

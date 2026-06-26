@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kan_board_web/app/core/routes/app_routes.dart';
 import 'package:kan_board_web/app/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:kan_board_web/app/features/auth/presentation/cubit/login_state.dart';
 
@@ -54,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
                     if (state is LoginSuccess) {
                       Navigator.pushReplacementNamed(
                         context,
-                        '/dashboard',
+                        AppRoutes.goals,
                       );
                     }
 

@@ -16,11 +16,11 @@ class TasksDatasourceImpl implements TasksDatasource {
        _logger = logger;
 
   @override
-  Future<List<TaskModel>> getTasks() async {
+  Future<List<TaskModel>> getTasks({required String goalId}) async {
     try {
       _logger.info('Fetching tasks');
 
-      final response = await _httpClient.get('/tasks');
+      final response = await _httpClient.get('/goals/$goalId/tasks');
 
       _logger.info('Tasks fetched successfully');
       // _logger.info('$response');

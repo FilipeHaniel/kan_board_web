@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_board_web/app/core/di/injector.dart';
+import 'package:kan_board_web/app/core/routes/app_routes.dart';
 import 'package:kan_board_web/app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:kan_board_web/app/features/auth/presentation/cubit/auth_state.dart';
 
@@ -17,13 +18,13 @@ class SplashPage extends StatelessWidget {
             case Authenticated():
               Navigator.pushReplacementNamed(
                 context,
-                '/dashboard',
+                AppRoutes.goals,
               );
 
             case Unauthenticated():
               Navigator.pushReplacementNamed(
                 context,
-                '/login',
+                AppRoutes.login,
               );
 
             case AuthInitial():

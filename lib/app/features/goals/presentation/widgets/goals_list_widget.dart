@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kan_board_web/app/core/routes/app_routes.dart';
 import 'package:kan_board_web/app/features/goals/domain/entities/goal_entity.dart';
 
 class GoalsListWidget extends StatelessWidget {
@@ -37,8 +38,8 @@ class GoalsListWidget extends StatelessWidget {
             onTap: () {
               Navigator.pushNamed(
                 context,
-                '/dashboard',
-                arguments: goal.id,
+                AppRoutes.dashboard,
+                arguments: goal,
               );
             },
           ),

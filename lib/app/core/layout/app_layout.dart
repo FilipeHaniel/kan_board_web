@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:kan_board_web/app/core/layout/sidebar/app_sidebar.dart';
 import 'package:kan_board_web/app/core/layout/topbar/app_topbar.dart';
+import 'package:kan_board_web/app/features/goals/domain/entities/goal_entity.dart';
 
 class AppLayout extends StatelessWidget {
   final Widget child;
+  final GoalEntity goal;
 
   const AppLayout({
     super.key,
     required this.child,
+    required this.goal,
   });
 
   @override
@@ -19,7 +22,7 @@ class AppLayout extends StatelessWidget {
           Expanded(
             child: Column(
               children: [
-                const AppTopbar(),
+                AppTopbar(goal: goal),
                 Expanded(
                   child: child,
                 ),
