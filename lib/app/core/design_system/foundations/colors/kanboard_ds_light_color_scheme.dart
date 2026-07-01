@@ -1,7 +1,7 @@
 import 'kanboard_ds_color_palette.dart';
 import 'kanboard_ds_color_scheme.dart';
 
-const kanBoardDSLightColors = KanBoardDSColorScheme(
+const kanBoardDSLightColorScheme = KanBoardDSColorScheme(
   // Brand
   primary: KanBoardDSColorPalette.blue600,
 

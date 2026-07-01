@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kan_board_web/app/core/design_system/foundations/kanboard_ds_light_colors.dart';
-import 'package:kan_board_web/app/core/design_system/radius/kanboard_ds_radius.dart';
-import 'package:kan_board_web/app/core/design_system/typography/kanboard_ds_typography.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/colors/kanboard_ds_light_color_scheme.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/radius/kanboard_ds_radius.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/typography/kanboard_ds_typography.dart';
 
 ThemeData buildKanBoardDSLightTheme() {
-  final colors = kanBoardDSLightColors;
+  final colors = kanBoardDSLightColorScheme;
 
   return ThemeData(
     useMaterial3: true,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kan_board_web/app/core/design_system/foundations/kanboard_ds_dark_colors.dart';
-import 'package:kan_board_web/app/core/design_system/radius/kanboard_ds_radius.dart';
-import 'package:kan_board_web/app/core/design_system/typography/kanboard_ds_typography.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/colors/kanboard_ds_dark_color_scheme.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/radius/kanboard_ds_radius.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/typography/kanboard_ds_typography.dart';
 
 ThemeData buildKanBoardDSDarkTheme() {
-  final colors = kanBoardDSDarkColors;
+  final colors = kanBoardDSDarkColorScheme;
 
   return ThemeData(
     useMaterial3: true,

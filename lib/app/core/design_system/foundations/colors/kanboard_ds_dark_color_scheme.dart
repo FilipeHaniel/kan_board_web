@@ -1,7 +1,7 @@
 import 'kanboard_ds_color_palette.dart';
 import 'kanboard_ds_color_scheme.dart';
 
-const kanBoardDSDarkColors = KanBoardDSColorScheme(
+const kanBoardDSDarkColorScheme = KanBoardDSColorScheme(
   primary: KanBoardDSColorPalette.blue500,
 
   success: KanBoardDSColorPalette.green500,
