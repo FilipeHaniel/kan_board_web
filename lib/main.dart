@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_board_web/app/core/bloc/app_bloc_observer.dart';
-import 'package:kan_board_web/app/core/design_system/foundations/colors/kanboard_ds_light_colors.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/colors/kanboard_ds_light_color_scheme.dart';
 import 'package:kan_board_web/app/core/design_system/theme/kanboard_ds_theme_colors.dart';
 import 'package:kan_board_web/app/core/di/injector.dart';
 import 'package:kan_board_web/app/core/logger/app_logger.dart';
