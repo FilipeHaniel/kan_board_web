@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/typography/kanboard_ds_text_styles.dart';
 import 'package:kan_board_web/app/core/di/injector.dart';
 import 'package:kan_board_web/app/features/goals/presentation/cubit/goal_cubit.dart';
 import 'package:kan_board_web/app/features/goals/presentation/cubit/goals_state.dart';
@@ -14,7 +15,10 @@ class GoalsPage extends StatelessWidget {
       create: (_) => getIt<GoalsCubit>()..loadGoals(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Meus Objetivos'),
+          title: Text(
+            'Meus Objetivos',
+            style: KanBoardDSTextStyles.titleLarge(context),
+          ),
         ),
         body: BlocBuilder<GoalsCubit, GoalsState>(
           builder: (context, state) {
@@ -29,6 +33,8 @@ class GoalsPage extends StatelessWidget {
                 return Center(
                   child: Text(
                     state.message,
+                    style: KanBoardDSTextStyles.error(context),
+                    textAlign: TextAlign.center,
                   ),
                 );
 
