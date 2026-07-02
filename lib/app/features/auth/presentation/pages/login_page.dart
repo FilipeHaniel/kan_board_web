@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/spacing/kanboard_ds_spacing.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/typography/kanboard_ds_text_styles.dart';
+import 'package:kan_board_web/app/core/design_system/primitives/button/kanboard_ds_button.dart';
+import 'package:kan_board_web/app/core/design_system/primitives/text_field/kanboard_ds_text_field.dart';
 import 'package:kan_board_web/app/core/routes/app_routes.dart';
 import 'package:kan_board_web/app/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:kan_board_web/app/features/auth/presentation/cubit/login_state.dart';
@@ -75,69 +79,44 @@ class _LoginPageState extends State<LoginPage> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Text(
-                            'StudyFlow',
-                            style: TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          Text(
+                            'KanBoard',
+                            style: KanBoardDSTextStyles.displaySmall(context),
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(
+                            height: KanBoardDSSpacing.space8,
+                          ),
                           Text(
                             'Entre para continuar',
-                            style: TextStyle(
-                              color: Colors.grey.shade600,
+                            style: KanBoardDSTextStyles.bodyLargeSecondary(
+                              context,
                             ),
                           ),
-                          const SizedBox(height: 32),
-                          TextFormField(
+                          const SizedBox(
+                            height: KanBoardDSSpacing.space32,
+                          ),
+                          KanBoardDSTextField(
                             controller: emailController,
+                            label: 'E-mail',
                             keyboardType: TextInputType.emailAddress,
-                            decoration: const InputDecoration(
-                              labelText: 'E-mail',
-                              border: OutlineInputBorder(),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Informe seu e-mail';
-                              }
-
-                              return null;
-                            },
                           ),
-                          const SizedBox(height: 16),
-                          TextFormField(
+                          const SizedBox(
+                            height: KanBoardDSSpacing.space16,
+                          ),
+                          KanBoardDSTextField(
                             controller: passwordController,
+                            label: 'Senha',
                             obscureText: true,
-                            decoration: const InputDecoration(
-                              labelText: 'Senha',
-                              border: OutlineInputBorder(),
-                            ),
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Informe sua senha';
-                              }
-
-                              return null;
-                            },
                           ),
-                          const SizedBox(height: 24),
+                          const SizedBox(
+                            height: KanBoardDSSpacing.space24,
+                          ),
                           SizedBox(
                             width: double.infinity,
-                            height: 50,
-                            child: FilledButton(
+                            child: KanBoardDSButton(
+                              text: 'Entrar',
+                              loading: loading,
                               onPressed: loading ? null : _login,
-                              child: loading
-                                  ? const SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                      ),
-                                    )
-                                  : const Text(
-                                      'Entrar',
-                                    ),
                             ),
                           ),
                         ],
