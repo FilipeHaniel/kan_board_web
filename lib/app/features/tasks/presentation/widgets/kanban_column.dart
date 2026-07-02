@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/typography/kanboard_ds_text_styles.dart';
 import 'package:kan_board_web/app/features/tasks/domain/entities/task_entity.dart';
 import 'task_card.dart';
 
@@ -42,10 +43,7 @@ class KanbanColumn extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: KanBoardDSTextStyles.titleMedium(context),
                 ),
                 const SizedBox(height: 12),
                 Divider(
@@ -58,8 +56,8 @@ class KanbanColumn extends StatelessWidget {
                       ? Center(
                           child: Text(
                             'Nenhuma tarefa',
-                            style: TextStyle(
-                              color: Colors.grey.shade600,
+                            style: KanBoardDSTextStyles.bodyMediumSecondary(
+                              context,
                             ),
                           ),
                         )

@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/spacing/kanboard_ds_spacing.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/typography/kanboard_ds_text_styles.dart';
+import 'package:kan_board_web/app/core/design_system/primitives/button/kanboard_ds_button.dart';
 
 class StudyPage extends StatefulWidget {
   final String taskTitle;
@@ -59,7 +62,10 @@ class _StudyPageState extends State<StudyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.taskTitle),
+        title: Text(
+          widget.taskTitle,
+          style: KanBoardDSTextStyles.titleLarge(context),
+        ),
       ),
       body: Center(
         child: Column(
@@ -67,19 +73,14 @@ class _StudyPageState extends State<StudyPage> {
           children: [
             Text(
               formatTime(),
-              style: const TextStyle(
-                fontSize: 48,
-                fontWeight: FontWeight.bold,
-              ),
+              style: KanBoardDSTextStyles.displayMedium(context),
             ),
-
-            const SizedBox(height: 20),
-
-            ElevatedButton(
+            const SizedBox(
+              height: KanBoardDSSpacing.space20,
+            ),
+            KanBoardDSButton(
+              text: isRunning ? 'Parar' : 'Iniciar',
               onPressed: isRunning ? stopTimer : startTimer,
-              child: Text(
-                isRunning ? 'Parar' : 'Iniciar',
-              ),
             ),
           ],
         ),

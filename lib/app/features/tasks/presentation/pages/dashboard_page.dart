@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/typography/kanboard_ds_text_styles.dart';
 import 'package:kan_board_web/app/core/di/injector.dart';
 import 'package:kan_board_web/app/core/layout/app_layout.dart';
 import 'package:kan_board_web/app/core/layout/content/kanban_area.dart';
@@ -40,6 +41,8 @@ class DashboardPage extends StatelessWidget {
               TasksError(:final message) => Center(
                 child: Text(
                   message,
+                  style: KanBoardDSTextStyles.error(context),
+                  textAlign: TextAlign.center,
                 ),
               ),
             };
