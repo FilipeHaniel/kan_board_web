@@ -29,9 +29,6 @@ class GoalsListWidget extends StatelessWidget {
             title: Text(
               goal.title,
             ),
-            subtitle: Text(
-              goal.isActive ? 'Objetivo ativo' : 'Objetivo inativo',
-            ),
             trailing: const Icon(
               Icons.arrow_forward_ios,
             ),

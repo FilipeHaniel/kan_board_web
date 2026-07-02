@@ -18,6 +18,9 @@ class GoalsDatasourceImpl implements GoalsDatasource {
   Future<List<GoalModel>> getGoals() async {
     try {
       final response = await _httpClient.get('/goals');
+      _logger.info(
+        'Goals carregadas com sucesso',
+      );
 
       return (response as List)
           .map(
@@ -25,6 +28,8 @@ class GoalsDatasourceImpl implements GoalsDatasource {
           )
           .toList();
     } catch (_) {
+      _logger.error('Erro ao carregar goals');
+
       throw ServerException();
     }
   }

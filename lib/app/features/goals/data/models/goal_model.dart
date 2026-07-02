@@ -5,7 +5,6 @@ class GoalModel extends GoalEntity {
     required super.id,
     required super.title,
     required super.examDate,
-    required super.isActive,
   });
 
   factory GoalModel.fromJson(Map<String, dynamic> json) {
@@ -15,7 +14,6 @@ class GoalModel extends GoalEntity {
       examDate: json['examDate'] != null
           ? DateTime.parse(json['examDate'])
           : null,
-      isActive: json['isActive'],
     );
   }
 }
