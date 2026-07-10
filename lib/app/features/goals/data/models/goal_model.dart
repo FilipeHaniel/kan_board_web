@@ -16,4 +16,11 @@ class GoalModel extends GoalEntity {
           : null,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'examDate': examDate?.toIso8601String(),
+    };
+  }
 }

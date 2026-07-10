@@ -31,4 +31,22 @@ class GoalsDatasourceImpl implements GoalsDatasource {
       throw ServerException();
     }
   }
+
+  @override
+  Future<void> createGoal(GoalModel goal) async {
+    try {
+      await _httpClient.post(
+        '/goals',
+        data: {
+          'title': goal.title,
+          'examDate': goal.examDate?.toIso8601String(),
+        },
+      );
+      _logger.info('Goal criada com sucesso');
+    } catch (_) {
+      _logger.error('Erro ao criar goal');
+
+      throw ServerException();
+    }
+  }
 }

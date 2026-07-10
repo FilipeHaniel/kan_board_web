@@ -5,6 +5,8 @@ import 'package:kan_board_web/app/features/goals/data/datasources/goal_datasourc
 import 'package:kan_board_web/app/features/goals/data/datasources/goals_datasource.dart';
 import 'package:kan_board_web/app/features/goals/data/repositories/goal_repository_impl.dart';
 import 'package:kan_board_web/app/features/goals/domain/repositories/goals_repository.dart';
+import 'package:kan_board_web/app/features/goals/domain/usecases/create_goal_usecase.dart';
+import 'package:kan_board_web/app/features/goals/domain/usecases/create_goal_usecase_impl.dart';
 import 'package:kan_board_web/app/features/goals/domain/usecases/get_goals_usecase.dart';
 import 'package:kan_board_web/app/features/goals/domain/usecases/get_goals_usecase_impl.dart';
 import 'package:kan_board_web/app/features/goals/presentation/cubit/goal_cubit.dart';
@@ -30,9 +32,16 @@ void setupGoalsDependencies(GetIt getIt) {
     ),
   );
 
+  getIt.registerLazySingleton<CreateGoalUsecase>(
+    () => CreateGoalUsecaseImpl(
+      repository: getIt<GoalsRepository>(),
+    ),
+  );
+
   getIt.registerFactory(
     () => GoalsCubit(
       getGoalsUsecase: getIt<GetGoalsUsecase>(),
+      createGoalUsecase: getIt<CreateGoalUsecase>(),
     ),
   );
 }

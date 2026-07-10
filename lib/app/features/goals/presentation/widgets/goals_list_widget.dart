@@ -14,7 +14,6 @@ class GoalsListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      padding: const EdgeInsets.all(24),
       itemCount: goals.length,
       separatorBuilder: (_, _) => const SizedBox(
         height: 16,
