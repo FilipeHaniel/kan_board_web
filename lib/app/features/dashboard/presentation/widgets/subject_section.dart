@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kan_board_web/app/core/design_system/foundations/typography/kanboard_ds_text_styles.dart';
 import 'package:kan_board_web/app/features/tasks/domain/entities/task_entity.dart';
-import 'package:kan_board_web/app/features/tasks/presentation/widgets/division_section.dart';
+import 'package:kan_board_web/app/features/dashboard/presentation/widgets/division_section.dart';
 
 class SubjectSection extends StatelessWidget {
   final String subject;

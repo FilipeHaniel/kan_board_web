@@ -11,7 +11,7 @@ import 'package:kan_board_web/app/features/auth/presentation/pages/login_page.da
 import 'package:kan_board_web/app/features/auth/presentation/pages/splash_page.dart';
 import 'package:kan_board_web/app/features/goals/domain/entities/goal_entity.dart';
 import 'package:kan_board_web/app/features/goals/presentation/pages/goals_page.dart';
-import 'package:kan_board_web/app/features/tasks/presentation/pages/dashboard_page.dart';
+import 'package:kan_board_web/app/features/dashboard/presentation/pages/dashboard_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
