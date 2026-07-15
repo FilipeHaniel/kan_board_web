@@ -90,7 +90,7 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
                   FilledButton(
                     onPressed: () {
                       context.read<GoalsCubit>().createGoal(
-                        GoalEntity(
+                        goal: GoalEntity(
                           id: '',
                           title: _titleController.text,
                           examDate: _examDate,

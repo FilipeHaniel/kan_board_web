@@ -3,5 +3,4 @@ import 'package:kan_board_web/app/features/goals/domain/entities/goal_entity.dar
 
 abstract class GetGoalsUsecase {
   Future<Result<List<GoalEntity>>> call();
-  Future<Result<void>> createGoal(GoalEntity goal);
 }

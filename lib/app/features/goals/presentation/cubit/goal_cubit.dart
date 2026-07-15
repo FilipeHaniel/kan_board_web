@@ -19,22 +19,26 @@ class GoalsCubit extends Cubit<GoalsState> {
   Future<void> loadGoals() async {
     emit(GoalsLoading());
 
-    final result = await _getGoalsUsecase();
+    try {
+      final result = await _getGoalsUsecase();
 
-    switch (result) {
-      case Success(data: final goals):
-        emit(
-          GoalsSuccess(goals),
-        );
+      switch (result) {
+        case Success(data: final goals):
+          emit(
+            GoalsSuccess(goals),
+          );
 
-      case FailureResult(failure: final failure):
-        emit(
-          GoalsError(failure.message),
-        );
+        case FailureResult(failure: final failure):
+          emit(
+            GoalsError(failure.message),
+          );
+      }
+    } catch (_) {
+      emit(GoalsError('Erro ao carregar metas.'));
     }
   }
 
-  Future<void> createGoal(GoalEntity goal) async {
+  Future<void> createGoal({required GoalEntity goal}) async {
     final result = await _createGoalUsecase(goal);
 
     switch (result) {

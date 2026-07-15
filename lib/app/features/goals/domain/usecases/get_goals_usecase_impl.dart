@@ -13,9 +13,4 @@ class GetGoalsUsecaseImpl implements GetGoalsUsecase {
   Future<Result<List<GoalEntity>>> call() {
     return _repository.getGoals();
   }
-
-  @override
-  Future<Result<void>> createGoal(GoalEntity goal) async {
-    return _repository.createGoal(goal);
-  }
 }
