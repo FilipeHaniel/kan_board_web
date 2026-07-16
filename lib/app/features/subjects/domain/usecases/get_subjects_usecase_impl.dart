@@ -11,7 +11,7 @@ class GetSubjectsUsecaseImpl implements GetSubjectsUsecase {
   }) : _repository = repository;
 
   @override
-  Future<Result<List<SubjectEntity>>> call(String goalId) {
-    return _repository.getSubjects(goalId);
+  Future<Result<List<SubjectEntity>>> call(String goalId) async {
+    return await _repository.getSubjects(goalId);
   }
 }

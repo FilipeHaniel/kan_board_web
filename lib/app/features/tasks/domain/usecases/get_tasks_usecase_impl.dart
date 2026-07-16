@@ -11,7 +11,7 @@ class GetTasksUsecaseImpl implements GetTasksUsecase {
   }) : _repository = repository;
 
   @override
-  Future<Result<List<TaskEntity>>> call({required String goalId}) {
+  Future<Result<List<TaskEntity>>> call(String goalId) {
     return _repository.getTasks(goalId: goalId);
   }
 }

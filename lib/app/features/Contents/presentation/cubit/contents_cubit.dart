@@ -16,10 +16,10 @@ class ContentsCubit extends Cubit<ContentsState> {
        _createContentUsecase = createContentUsecase,
        super(ContentsInitial());
 
-  Future<void> loadContents() async {
+  Future<void> loadContents(String goalId) async {
     emit(ContentsLoading());
 
-    final result = await _getContentsUsecase();
+    final result = await _getContentsUsecase(goalId);
 
     switch (result) {
       case Success(data: final contents):
@@ -34,12 +34,15 @@ class ContentsCubit extends Cubit<ContentsState> {
     }
   }
 
-  Future<void> createContent(ContentEntity content) async {
+  Future<void> createContent({
+    required ContentEntity content,
+    required String goalId,
+  }) async {
     final result = await _createContentUsecase(content);
 
     switch (result) {
       case Success():
-        loadContents();
+        loadContents(goalId);
 
       case FailureResult(failure: final failure):
         emit(

@@ -10,7 +10,7 @@ class GetContentsUsecaseImpl implements GetContentsUsecase {
     : _repository = repository;
 
   @override
-  Future<Result<List<ContentEntity>>> call() {
-    return _repository.getContents();
+  Future<Result<List<ContentEntity>>> call(String goalId) async {
+    return await _repository.getContents(goalId);
   }
 }

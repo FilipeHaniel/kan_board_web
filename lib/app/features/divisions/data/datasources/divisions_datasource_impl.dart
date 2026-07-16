@@ -10,8 +10,13 @@ class DivisionsDatasourceImpl implements DivisionsDatasource {
   }) : _httpClient = httpClient;
 
   @override
-  Future<List<DivisionModel>> getDivisions() async {
-    final response = await _httpClient.get('/divisions');
+  Future<List<DivisionModel>> getDivisions(String goalId) async {
+    final response = await _httpClient.get(
+      '/divisions',
+      queryParameters: {
+        'goalId': goalId,
+      },
+    );
 
     return (response as List).map((e) => DivisionModel.fromJson(e)).toList();
   }

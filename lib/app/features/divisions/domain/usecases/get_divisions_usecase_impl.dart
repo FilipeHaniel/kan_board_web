@@ -10,7 +10,7 @@ class GetDivisionsUsecaseImpl implements GetDivisionsUsecase {
     : _repository = repository;
 
   @override
-  Future<Result<List<DivisionEntity>>> call() async {
-    return await _repository.getDivisions();
+  Future<Result<List<DivisionEntity>>> call(String goalId) async {
+    return await _repository.getDivisions(goalId);
   }
 }

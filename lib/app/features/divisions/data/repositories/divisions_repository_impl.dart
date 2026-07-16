@@ -17,9 +17,9 @@ class DivisionRepositoryImpl implements DivisionsRepository {
        _logger = logger;
 
   @override
-  Future<Result<List<DivisionEntity>>> getDivisions() async {
+  Future<Result<List<DivisionEntity>>> getDivisions(String goalId) async {
     try {
-      final models = await _datasource.getDivisions();
+      final models = await _datasource.getDivisions(goalId);
 
       return Success(models);
     } on ServerException {

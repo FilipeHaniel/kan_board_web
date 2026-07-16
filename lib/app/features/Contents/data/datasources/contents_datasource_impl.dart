@@ -15,9 +15,14 @@ class ContentsDatasourceImpl implements ContentsDatasource {
        _logger = logger;
 
   @override
-  Future<List<ContentModel>> getContents() async {
+  Future<List<ContentModel>> getContents(String goalId) async {
     try {
-      final response = await _httpClient.get('/contents');
+      final response = await _httpClient.get(
+        '/contents',
+        queryParameters: {
+          'goalId': goalId,
+        },
+      );
 
       return (response as List<dynamic>)
           .map((item) => ContentModel.fromJson(item as Map<String, dynamic>))

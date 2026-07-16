@@ -17,11 +17,11 @@ class DivisionsCubit extends Cubit<DivisionsState> {
        _createDivisionUsecase = createDivisionUsecase,
        super(DivisionsInitial());
 
-  Future<void> loadDivisions() async {
+  Future<void> loadDivisions(String goalId) async {
     emit(DivisionsLoading());
 
     try {
-      final result = await _getDivisionsUsecase();
+      final result = await _getDivisionsUsecase(goalId);
 
       switch (result) {
         case Success(data: final divisions):
@@ -39,11 +39,14 @@ class DivisionsCubit extends Cubit<DivisionsState> {
     }
   }
 
-  Future<void> createDivision({required DivisionEntity division}) async {
+  Future<void> createDivision({
+    required DivisionEntity division,
+    required String goalId,
+  }) async {
     try {
       await _createDivisionUsecase(division: division);
 
-      await loadDivisions();
+      await loadDivisions(goalId);
     } catch (_) {
       emit(DivisionsError('Erro ao criar frente.'));
     }

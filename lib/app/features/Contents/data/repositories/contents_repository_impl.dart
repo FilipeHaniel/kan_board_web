@@ -13,9 +13,9 @@ class ContentsRepositoryImpl implements ContentsRepository {
   }) : _datasource = datasource;
 
   @override
-  Future<Result<List<ContentEntity>>> getContents() async {
+  Future<Result<List<ContentEntity>>> getContents(String goalId) async {
     try {
-      final result = await _datasource.getContents();
+      final result = await _datasource.getContents(goalId);
 
       return Success(result);
     } catch (e) {

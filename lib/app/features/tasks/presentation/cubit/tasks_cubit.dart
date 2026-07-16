@@ -25,7 +25,7 @@ class TasksCubit extends Cubit<TasksState> {
 
       emit(TasksLoading());
 
-      final result = await _getTasksUsecase(goalId: goalId);
+      final result = await _getTasksUsecase(goalId);
 
       switch (result) {
         case Success(data: final tasks):
