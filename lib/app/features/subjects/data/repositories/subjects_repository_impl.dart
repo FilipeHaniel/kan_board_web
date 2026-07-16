@@ -21,9 +21,7 @@ class SubjectsRepositoryImpl implements SubjectsRepository {
 
       return Success(result);
     } catch (_) {
-      return FailureResult(
-        ServerFailure(),
-      );
+      return FailureResult(ServerFailure());
     }
   }
 
