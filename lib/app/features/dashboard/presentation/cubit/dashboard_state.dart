@@ -1,8 +1,5 @@
-import 'package:kan_board_web/app/features/Contents/domain/entities/content_entity.dart';
-import 'package:kan_board_web/app/features/divisions/domain/entities/division_entity.dart';
+import 'package:kan_board_web/app/features/dashboard/domain/entities/dashboard_subject_entity.dart';
 import 'package:kan_board_web/app/features/goals/domain/entities/goal_entity.dart';
-import 'package:kan_board_web/app/features/subjects/domain/entities/subject_entity.dart';
-import 'package:kan_board_web/app/features/tasks/domain/entities/task_entity.dart';
 
 abstract class DashboardState {}
 
@@ -12,17 +9,11 @@ class DashboardLoading extends DashboardState {}
 
 class DashboardSuccess extends DashboardState {
   final GoalEntity goal;
-  final List<SubjectEntity> subjects;
-  final List<DivisionEntity> divisions;
-  final List<ContentEntity> contents;
-  final List<TaskEntity> tasks;
+  final List<DashboardSubjectEntity> subjects;
 
   DashboardSuccess({
     required this.goal,
     required this.subjects,
-    required this.divisions,
-    required this.contents,
-    required this.tasks,
   });
 }
 

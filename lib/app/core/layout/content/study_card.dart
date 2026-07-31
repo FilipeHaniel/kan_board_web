@@ -1,46 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:kan_board_web/app/features/dashboard/domain/entities/dashboard_subject_entity.dart';
 
 class StudyCard extends StatelessWidget {
-  final String title;
+  final DashboardTaskEntity task;
 
   const StudyCard({
     super.key,
-    required this.title,
+    required this.task,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF9FAFB),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: Colors.grey.shade300,
+    return Draggable<DashboardTaskEntity>(
+      data: task,
+      feedback: Material(
+        color: Colors.transparent,
+        child: SizedBox(
+          width: 260,
+          child: _Card(task),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 16,
-            ),
-          ),
-          const SizedBox(height: 12),
-          const Row(
-            children: [
-              Icon(
-                Icons.timer_outlined,
-                size: 16,
-              ),
-              SizedBox(width: 4),
-              Text('45 min'),
-            ],
-          ),
-        ],
+      childWhenDragging: Opacity(
+        opacity: .4,
+        child: _Card(task),
+      ),
+      child: _Card(task),
+    );
+  }
+}
+
+class _Card extends StatelessWidget {
+  final DashboardTaskEntity task;
+
+  const _Card(this.task);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Text(task.title),
       ),
     );
   }

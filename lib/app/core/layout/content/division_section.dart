@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kan_board_web/app/core/layout/content/kanban_column.dart';
 
 class DivisionSection extends StatelessWidget {
   final String title;
@@ -22,34 +21,34 @@ class DivisionSection extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 16),
-        const Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: KanbanColumn(
-                title: 'Backlog',
-              ),
-            ),
-            SizedBox(width: 16),
-            Expanded(
-              child: KanbanColumn(
-                title: 'Hoje',
-              ),
-            ),
-            SizedBox(width: 16),
-            Expanded(
-              child: KanbanColumn(
-                title: 'Revisão',
-              ),
-            ),
-            SizedBox(width: 16),
-            Expanded(
-              child: KanbanColumn(
-                title: 'Concluído',
-              ),
-            ),
-          ],
-        ),
+        // const Row(
+        //   crossAxisAlignment: CrossAxisAlignment.start,
+        //   children: [
+        //     Expanded(
+        //       child: KanbanColumn(
+        //         title: 'Backlog',
+        //       ),
+        //     ),
+        //     SizedBox(width: 16),
+        //     Expanded(
+        //       child: KanbanColumn(
+        //         title: 'Hoje',
+        //       ),
+        //     ),
+        //     SizedBox(width: 16),
+        //     Expanded(
+        //       child: KanbanColumn(
+        //         title: 'Revisão',
+        //       ),
+        //     ),
+        //     SizedBox(width: 16),
+        //     Expanded(
+        //       child: KanbanColumn(
+        //         title: 'Concluído',
+        //       ),
+        //     ),
+        //   ],
+        // ),
       ],
     );
   }

@@ -1,58 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:kan_board_web/app/core/design_system/foundations/typography/kanboard_ds_text_styles.dart';
-
-import 'package:kan_board_web/app/features/tasks/domain/entities/task_entity.dart';
-import 'package:kan_board_web/app/features/dashboard/presentation/widgets/kanban_column.dart';
+import 'package:kan_board_web/app/features/dashboard/domain/entities/dashboard_subject_entity.dart';
+import 'package:kan_board_web/app/features/dashboard/presentation/widgets/content_section.dart';
 
 class DivisionSection extends StatelessWidget {
-  final String division;
-  final List<TaskEntity> tasks;
-  final Function(TaskEntity, String) onTaskDropped;
+  final DashboardDivisionEntity division;
+  final Function(DashboardTaskEntity, String) onTaskDropped;
 
   const DivisionSection({
     super.key,
     required this.division,
-    required this.tasks,
     required this.onTaskDropped,
   });
 
   @override
   Widget build(BuildContext context) {
-    final divisionTasks = tasks
-        .where(
-          (t) => t.division == division,
-        )
-        .toList();
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          division,
+          division.name,
           style: KanBoardDSTextStyles.titleLarge(context),
         ),
         const SizedBox(height: 16),
-        Row(
-          children: [
-            KanbanColumn(
-              title: 'Backlog',
-              status: 'backlog',
-              tasks: divisionTasks.where((t) => t.status == 'backlog').toList(),
-              onTaskDropped: onTaskDropped,
-            ),
-            KanbanColumn(
-              title: 'Hoje',
-              status: 'today',
-              tasks: divisionTasks.where((t) => t.status == 'today').toList(),
-              onTaskDropped: onTaskDropped,
-            ),
-            KanbanColumn(
-              title: 'Concluído',
-              status: 'done',
-              tasks: divisionTasks.where((t) => t.status == 'done').toList(),
-              onTaskDropped: onTaskDropped,
-            ),
-          ],
+        ...division.contents.map(
+          (content) => ContentSection(
+            content: content,
+            onTaskDropped: onTaskDropped,
+          ),
         ),
       ],
     );

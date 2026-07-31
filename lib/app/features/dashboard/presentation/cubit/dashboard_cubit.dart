@@ -1,50 +1,77 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:kan_board_web/app/features/Contents/domain/entities/content_entity.dart';
-import 'package:kan_board_web/app/features/Contents/domain/usecases/get_contents_usecase.dart';
+import 'package:kan_board_web/app/features/dashboard/domain/usecases/get_dashboard_usecase.dart';
 import 'package:kan_board_web/app/features/dashboard/presentation/cubit/dashboard_state.dart';
-import 'package:kan_board_web/app/features/divisions/domain/entities/division_entity.dart';
-import 'package:kan_board_web/app/features/divisions/domain/usecases/get_divisions_usecase.dart';
 import 'package:kan_board_web/app/features/goals/domain/entities/goal_entity.dart';
-import 'package:kan_board_web/app/features/subjects/domain/entities/subject_entity.dart';
-import 'package:kan_board_web/app/features/subjects/domain/usecases/get_subjects_usecase.dart';
-import 'package:kan_board_web/app/features/tasks/domain/entities/task_entity.dart';
-import 'package:kan_board_web/app/features/tasks/domain/usecases/get_tasks_usecase.dart';
+import 'package:kan_board_web/app/features/tasks/domain/usecases/move_task_usecase.dart';
 
 class DashboardCubit extends Cubit<DashboardState> {
-  final GetSubjectsUsecase _getSubjects;
-  final GetDivisionsUsecase _getDivisions;
-  final GetContentsUsecase _getContents;
-  final GetTasksUsecase _getTasks;
+  final GetDashboardUsecase _getDashboard;
+  final MoveTaskUsecase _moveTask;
 
   DashboardCubit({
-    required GetSubjectsUsecase getSubjects,
-    required GetDivisionsUsecase getDivisions,
-    required GetContentsUsecase getContents,
-    required GetTasksUsecase getTasks,
-  }) : _getSubjects = getSubjects,
-       _getDivisions = getDivisions,
-       _getContents = getContents,
-       _getTasks = getTasks,
+    required GetDashboardUsecase getDashboard,
+    required MoveTaskUsecase moveTask,
+  }) : _getDashboard = getDashboard,
+       _moveTask = moveTask,
        super(DashboardInitial());
 
   Future<void> loadDashboard(GoalEntity goal) async {
     emit(DashboardLoading());
 
-    final results = await Future.wait([
-      _getSubjects(goal.id),
-      _getDivisions(goal.id),
-      _getContents(goal.id),
-      _getTasks(goal.id),
-    ]);
+    try {
+      final subjects = await _getDashboard(goalId: goal.id);
+
+      emit(
+        DashboardSuccess(
+          goal: goal,
+          subjects: subjects,
+        ),
+      );
+    } catch (_) {
+      emit(
+        DashboardError(
+          'Erro ao carregar dashboard',
+        ),
+      );
+    }
+  }
+
+  Future<void> moveTask({
+    required String taskId,
+    required String status,
+  }) async {
+    final currentState = state;
+
+    if (currentState is! DashboardSuccess) return;
+
+    await _moveTask(
+      taskId: taskId,
+      status: status,
+    );
+
+    final subjects = currentState.subjects.map((subject) {
+      return subject.copyWith(
+        divisions: subject.divisions.map((division) {
+          return division.copyWith(
+            contents: division.contents.map((content) {
+              return content.copyWith(
+                tasks: content.tasks.map((task) {
+                  if (task.id == taskId) {
+                    return task.copyWith(status: status);
+                  }
+                  return task;
+                }).toList(),
+              );
+            }).toList(),
+          );
+        }).toList(),
+      );
+    }).toList();
 
     emit(
       DashboardSuccess(
-        goal: goal,
-        subjects: results[0] as List<SubjectEntity>,
-        divisions: results[1] as List<DivisionEntity>,
-        contents: results[2] as List<ContentEntity>,
-        tasks: results[3] as List<TaskEntity>,
+        goal: currentState.goal,
+        subjects: subjects,
       ),
     );
   }
