@@ -22,10 +22,12 @@ class SubjectsDatasourceImpl implements SubjectsDatasource {
   }
 
   @override
-  Future<void> createSubject(SubjectModel subject) async {
-    await _httpClient.post(
+  Future<SubjectModel> createSubject(SubjectModel subject) async {
+    final response = await _httpClient.post(
       '/subjects',
       data: subject.toJson(),
     );
+
+    return SubjectModel.fromJson(response);
   }
 }

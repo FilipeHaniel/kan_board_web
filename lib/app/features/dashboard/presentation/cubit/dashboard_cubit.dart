@@ -1,17 +1,24 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kan_board_web/app/core/result/result.dart';
+import 'package:kan_board_web/app/features/dashboard/domain/entities/dashboard_subject_entity.dart';
 import 'package:kan_board_web/app/features/dashboard/domain/usecases/get_dashboard_usecase.dart';
 import 'package:kan_board_web/app/features/dashboard/presentation/cubit/dashboard_state.dart';
 import 'package:kan_board_web/app/features/goals/domain/entities/goal_entity.dart';
+import 'package:kan_board_web/app/features/subjects/domain/entities/subject_entity.dart';
+import 'package:kan_board_web/app/features/subjects/domain/usecases/create_subject_usecase.dart';
 import 'package:kan_board_web/app/features/tasks/domain/usecases/move_task_usecase.dart';
 
 class DashboardCubit extends Cubit<DashboardState> {
   final GetDashboardUsecase _getDashboard;
+  final CreateSubjectUsecase _createSubject;
   final MoveTaskUsecase _moveTask;
 
   DashboardCubit({
     required GetDashboardUsecase getDashboard,
+    required CreateSubjectUsecase createSubject,
     required MoveTaskUsecase moveTask,
   }) : _getDashboard = getDashboard,
+       _createSubject = createSubject,
        _moveTask = moveTask,
        super(DashboardInitial());
 
@@ -33,6 +40,43 @@ class DashboardCubit extends Cubit<DashboardState> {
           'Erro ao carregar dashboard',
         ),
       );
+    }
+  }
+
+  Future<void> createSubject({
+    required String goalId,
+    required String name,
+  }) async {
+    final currentState = state;
+
+    if (currentState is! DashboardSuccess) return;
+
+    final result = await _createSubject(
+      SubjectEntity(
+        id: '',
+        name: name,
+        goalId: goalId,
+      ),
+    );
+
+    switch (result) {
+      case Success(data: final subject):
+        emit(
+          DashboardSuccess(
+            goal: currentState.goal,
+            subjects: [
+              ...currentState.subjects,
+              DashboardSubjectEntity(
+                id: subject.id,
+                name: subject.name,
+                divisions: const [],
+              ),
+            ],
+          ),
+        );
+
+      case FailureResult():
+      // tratar erro
     }
   }
 

@@ -25,6 +25,7 @@ class KanbanColumn extends StatelessWidget {
         },
         builder: (context, candidateData, rejectedData) {
           return Container(
+            height: 300, // altura fixa
             margin: const EdgeInsets.symmetric(horizontal: 8),
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -42,12 +43,15 @@ class KanbanColumn extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 16),
-                ...tasks.map(
-                  (task) => Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: StudyCard(
-                      task: task,
-                    ),
+                Expanded(
+                  child: ListView.separated(
+                    itemCount: tasks.length,
+                    separatorBuilder: (_, _) => const SizedBox(height: 12),
+                    itemBuilder: (_, index) {
+                      return StudyCard(
+                        task: tasks[index],
+                      );
+                    },
                   ),
                 ),
               ],

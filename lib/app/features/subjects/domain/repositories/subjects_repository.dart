@@ -4,7 +4,7 @@ import 'package:kan_board_web/app/features/subjects/domain/entities/subject_enti
 abstract interface class SubjectsRepository {
   Future<Result<List<SubjectEntity>>> getSubjects(String goalId);
 
-  Future<Result<void>> createSubject(
+  Future<Result<SubjectEntity>> createSubject(
     SubjectEntity subject,
   );
 }

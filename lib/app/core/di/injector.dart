@@ -10,6 +10,7 @@ import 'package:kan_board_web/app/core/storage/local_auth_storage.dart';
 import 'package:kan_board_web/app/features/auth/auth_injector.dart';
 import 'package:kan_board_web/app/features/dashboard/dashboard_injector.dart';
 import 'package:kan_board_web/app/features/goals/goals_injector.dart';
+import 'package:kan_board_web/app/features/subjects/subjects_injector.dart';
 import 'package:kan_board_web/app/features/tasks/task_injector.dart';
 
 final getIt = GetIt.instance;
@@ -43,4 +44,6 @@ Future<void> setupDependencies() async {
   setupGoalsDependencies(getIt);
 
   setupDashboardDependencies(getIt);
+
+  setupSubjectsDependencies(getIt);
 }

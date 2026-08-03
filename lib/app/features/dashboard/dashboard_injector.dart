@@ -28,6 +28,7 @@ void setupDashboardDependencies(GetIt getIt) {
     () => DashboardCubit(
       getDashboard: getIt(),
       moveTask: getIt(),
+      createSubject: getIt(),
     ),
   );
 }

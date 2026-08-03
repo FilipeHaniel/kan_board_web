@@ -3,5 +3,5 @@ import 'package:kan_board_web/app/features/subjects/data/model/subject_model.dar
 abstract interface class SubjectsDatasource {
   Future<List<SubjectModel>> getSubjects(String goalId);
 
-  Future<void> createSubject(SubjectModel subject);
+  Future<SubjectModel> createSubject(SubjectModel subject);
 }

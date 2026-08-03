@@ -42,35 +42,50 @@ class GoalsPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Planos de estudo',
-                          style: KanBoardDSTextStyles.displaySmall(context),
-                        ),
-                        const SizedBox(height: KanBoardDSSpacing.space8),
-                        Text(
-                          'Organize seus objetivos antes de começar a estudar.',
-                          style: KanBoardDSTextStyles.bodyLarge(context),
-                        ),
-                        const SizedBox(height: KanBoardDSSpacing.space32),
-                        SizedBox(
-                          width: 280,
-                          child: OutlinedButton.icon(
-                            onPressed: () async {
-                              await showDialog(
-                                context: context,
-                                builder: (_) => BlocProvider.value(
-                                  value: context.read<GoalsCubit>(),
-                                  child: const CreateGoalDialog(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Planos de estudo',
+                                  style: KanBoardDSTextStyles.displaySmall(
+                                    context,
+                                  ),
                                 ),
-                              );
+                                const SizedBox(
+                                  height: KanBoardDSSpacing.space8,
+                                ),
+                                Text(
+                                  'Organize seus objetivos antes de começar a estudar.',
+                                  style: KanBoardDSTextStyles.bodyLarge(
+                                    context,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 280,
+                              child: OutlinedButton.icon(
+                                onPressed: () async {
+                                  await showDialog(
+                                    context: context,
+                                    builder: (_) => BlocProvider.value(
+                                      value: context.read<GoalsCubit>(),
+                                      child: const CreateGoalDialog(),
+                                    ),
+                                  );
 
-                              if (context.mounted) {
-                                context.read<GoalsCubit>().loadGoals();
-                              }
-                            },
-                            icon: const Icon(Icons.add),
-                            label: const Text('Novo plano'),
-                          ),
+                                  if (context.mounted) {
+                                    context.read<GoalsCubit>().loadGoals();
+                                  }
+                                },
+                                icon: const Icon(Icons.add),
+                                label: const Text('Novo plano'),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: KanBoardDSSpacing.space32),
                         Expanded(

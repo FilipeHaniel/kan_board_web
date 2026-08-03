@@ -26,11 +26,11 @@ class SubjectsRepositoryImpl implements SubjectsRepository {
   }
 
   @override
-  Future<Result<void>> createSubject(
+  Future<Result<SubjectEntity>> createSubject(
     SubjectEntity subject,
   ) async {
     try {
-      await _datasource.createSubject(
+      final result = await _datasource.createSubject(
         SubjectModel(
           id: subject.id,
           name: subject.name,
@@ -38,7 +38,7 @@ class SubjectsRepositoryImpl implements SubjectsRepository {
         ),
       );
 
-      return const Success(null);
+      return Success(result);
     } catch (_) {
       return FailureResult(
         ServerFailure(),
