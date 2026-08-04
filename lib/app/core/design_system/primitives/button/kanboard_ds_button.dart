@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/colors/kanboard_ds_light_color_scheme.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/spacing/kanboard_ds_spacing.dart';
 
-import '../../foundations/colors/kanboard_ds_light_color_scheme.dart';
-import '../../foundations/spacing/kanboard_ds_spacing.dart';
 import 'internal/kanboard_ds_button_style_resolver.dart';
 import 'kanboard_ds_button_size.dart';
 import 'kanboard_ds_button_variant.dart';

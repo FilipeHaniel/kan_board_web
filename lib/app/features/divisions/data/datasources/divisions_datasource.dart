@@ -3,5 +3,5 @@ import 'package:kan_board_web/app/features/divisions/data/models/division_model.
 abstract class DivisionsDatasource {
   Future<List<DivisionModel>> getDivisions(String goalId);
 
-  Future<void> createDivision(DivisionModel division);
+  Future<DivisionModel> createDivision(DivisionModel division);
 }

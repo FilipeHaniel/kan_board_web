@@ -3,6 +3,8 @@ import 'package:kan_board_web/app/core/result/result.dart';
 import 'package:kan_board_web/app/features/dashboard/domain/entities/dashboard_subject_entity.dart';
 import 'package:kan_board_web/app/features/dashboard/domain/usecases/get_dashboard_usecase.dart';
 import 'package:kan_board_web/app/features/dashboard/presentation/cubit/dashboard_state.dart';
+import 'package:kan_board_web/app/features/divisions/domain/entities/division_entity.dart';
+import 'package:kan_board_web/app/features/divisions/domain/usecases/create_division_usecase.dart';
 import 'package:kan_board_web/app/features/goals/domain/entities/goal_entity.dart';
 import 'package:kan_board_web/app/features/subjects/domain/entities/subject_entity.dart';
 import 'package:kan_board_web/app/features/subjects/domain/usecases/create_subject_usecase.dart';
@@ -11,14 +13,17 @@ import 'package:kan_board_web/app/features/tasks/domain/usecases/move_task_useca
 class DashboardCubit extends Cubit<DashboardState> {
   final GetDashboardUsecase _getDashboard;
   final CreateSubjectUsecase _createSubject;
+  final CreateDivisionUsecase _createDivision;
   final MoveTaskUsecase _moveTask;
 
   DashboardCubit({
     required GetDashboardUsecase getDashboard,
     required CreateSubjectUsecase createSubject,
+    required CreateDivisionUsecase createDivision,
     required MoveTaskUsecase moveTask,
   }) : _getDashboard = getDashboard,
        _createSubject = createSubject,
+       _createDivision = createDivision,
        _moveTask = moveTask,
        super(DashboardInitial());
 
@@ -52,7 +57,7 @@ class DashboardCubit extends Cubit<DashboardState> {
     if (currentState is! DashboardSuccess) return;
 
     final result = await _createSubject(
-      SubjectEntity(
+      subject: SubjectEntity(
         id: '',
         name: name,
         goalId: goalId,
@@ -75,8 +80,60 @@ class DashboardCubit extends Cubit<DashboardState> {
           ),
         );
 
-      case FailureResult():
+      case FailureResult(failure: final failure):
+        emit(
+          DashboardError(
+            failure.message,
+          ),
+        );
       // tratar erro
+    }
+  }
+
+  Future<void> createDivision({
+    required String subjectId,
+    required String name,
+  }) async {
+    final currentState = state;
+
+    if (currentState is! DashboardSuccess) return;
+
+    final result = await _createDivision(
+      division: DivisionEntity(
+        id: '',
+        name: name,
+        subjectId: subjectId,
+      ),
+    );
+
+    switch (result) {
+      case Success(data: final division):
+        final subjects = currentState.subjects.map((subject) {
+          if (subject.id != subjectId) {
+            return subject;
+          }
+
+          return subject.copyWith(
+            divisions: [
+              ...subject.divisions,
+              DashboardDivisionEntity(
+                id: division.id,
+                name: division.name,
+                contents: const [],
+              ),
+            ],
+          );
+        }).toList();
+
+        emit(
+          DashboardSuccess(
+            goal: currentState.goal,
+            subjects: subjects,
+          ),
+        );
+
+      case FailureResult():
+        break;
     }
   }
 

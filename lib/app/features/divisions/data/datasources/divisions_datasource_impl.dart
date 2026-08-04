@@ -22,10 +22,12 @@ class DivisionsDatasourceImpl implements DivisionsDatasource {
   }
 
   @override
-  Future<void> createDivision(DivisionModel division) async {
-    await _httpClient.post(
+  Future<DivisionModel> createDivision(DivisionModel division) async {
+    final response = await _httpClient.post(
       '/divisions',
       data: division.toJson(),
     );
+
+    return DivisionModel.fromJson(response);
   }
 }

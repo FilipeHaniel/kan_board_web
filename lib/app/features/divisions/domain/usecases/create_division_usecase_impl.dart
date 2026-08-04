@@ -10,7 +10,9 @@ class CreateDivisionUsecaseImpl implements CreateDivisionUsecase {
     : _repository = repository;
 
   @override
-  Future<Result<void>> call({required DivisionEntity division}) async {
-    return _repository.createDivision(division: division);
+  Future<Result<DivisionEntity>> call({
+    required DivisionEntity division,
+  }) async {
+    return await _repository.createDivision(division: division);
   }
 }

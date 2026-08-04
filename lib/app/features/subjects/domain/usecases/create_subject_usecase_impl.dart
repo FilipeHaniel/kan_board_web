@@ -11,7 +11,7 @@ class CreateSubjectUsecaseImpl implements CreateSubjectUsecase {
   }) : _repository = repository;
 
   @override
-  Future<Result<SubjectEntity>> call(SubjectEntity subject) {
-    return _repository.createSubject(subject);
+  Future<Result<SubjectEntity>> call({required SubjectEntity subject}) async {
+    return await _repository.createSubject(subject);
   }
 }

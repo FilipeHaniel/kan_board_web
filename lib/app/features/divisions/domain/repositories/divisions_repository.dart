@@ -4,5 +4,7 @@ import 'package:kan_board_web/app/features/divisions/domain/entities/division_en
 abstract class DivisionsRepository {
   Future<Result<List<DivisionEntity>>> getDivisions(String goalId);
 
-  Future<Result<void>> createDivision({required DivisionEntity division});
+  Future<Result<DivisionEntity>> createDivision({
+    required DivisionEntity division,
+  });
 }

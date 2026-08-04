@@ -31,7 +31,7 @@ class SubjectsCubit extends Cubit<SubjectsState> {
   }
 
   Future<void> createSubject(SubjectEntity subject) async {
-    final result = await _createSubject(subject);
+    final result = await _createSubject(subject: subject);
 
     switch (result) {
       case Success():

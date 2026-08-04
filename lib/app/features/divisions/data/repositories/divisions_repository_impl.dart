@@ -6,11 +6,11 @@ import 'package:kan_board_web/app/features/divisions/data/models/division_model.
 import 'package:kan_board_web/app/features/divisions/domain/entities/division_entity.dart';
 import 'package:kan_board_web/app/features/divisions/domain/repositories/divisions_repository.dart';
 
-class DivisionRepositoryImpl implements DivisionsRepository {
+class DivisionsRepositoryImpl implements DivisionsRepository {
   final DivisionsDatasource _datasource;
   final AppLogger _logger;
 
-  DivisionRepositoryImpl({
+  DivisionsRepositoryImpl({
     required DivisionsDatasource datasource,
     required AppLogger logger,
   }) : _datasource = datasource,
@@ -29,11 +29,11 @@ class DivisionRepositoryImpl implements DivisionsRepository {
   }
 
   @override
-  Future<Result<void>> createDivision({
+  Future<Result<DivisionEntity>> createDivision({
     required DivisionEntity division,
   }) async {
     try {
-      await _datasource.createDivision(
+      final result = await _datasource.createDivision(
         DivisionModel(
           id: '',
           name: division.name,
@@ -41,7 +41,7 @@ class DivisionRepositoryImpl implements DivisionsRepository {
         ),
       );
 
-      return Success(null);
+      return Success(result);
     } on ServerException {
       _logger.error('Erro ao criar divisão');
       rethrow;
