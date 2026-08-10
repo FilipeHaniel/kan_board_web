@@ -4,6 +4,8 @@ import 'package:kan_board_web/app/features/tasks/domain/entities/task_entity.dar
 abstract class TasksRepository {
   Future<Result<List<TaskEntity>>> getTasks({required String goalId});
 
+  Future<Result<TaskEntity>> createTask(TaskEntity task);
+
   Future<Result<void>> moveTask({
     required String taskId,
     required String status,

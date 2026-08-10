@@ -3,6 +3,7 @@ import 'package:kan_board_web/app/core/failures/server_failure.dart';
 import 'package:kan_board_web/app/core/logger/app_logger.dart';
 import 'package:kan_board_web/app/core/result/result.dart';
 import 'package:kan_board_web/app/features/tasks/data/datasources/tasks_datasource.dart';
+import 'package:kan_board_web/app/features/tasks/data/models/task_model.dart';
 import 'package:kan_board_web/app/features/tasks/domain/entities/task_entity.dart';
 import 'package:kan_board_web/app/features/tasks/domain/repositories/tasks_repository.dart';
 
@@ -24,6 +25,30 @@ class TasksRepositoryImpl implements TasksRepository {
       final tasks = await _datasource.getTasks(goalId: goalId);
 
       return Success(tasks);
+    } on ServerException {
+      return FailureResult(
+        ServerFailure(),
+      );
+    }
+  }
+
+  @override
+  Future<Result<TaskEntity>> createTask(
+    TaskEntity task,
+  ) async {
+    try {
+      final createdTask = await _datasource.createTask(
+        TaskModel(
+          id: task.id,
+          title: task.title,
+          status: task.status,
+          position: task.position,
+          estimatedMinutes: task.estimatedMinutes,
+          contentId: task.contentId,
+        ),
+      );
+
+      return Success(createdTask);
     } on ServerException {
       return FailureResult(
         ServerFailure(),

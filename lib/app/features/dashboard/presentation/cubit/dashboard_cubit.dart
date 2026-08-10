@@ -10,6 +10,8 @@ import 'package:kan_board_web/app/features/divisions/domain/usecases/create_divi
 import 'package:kan_board_web/app/features/goals/domain/entities/goal_entity.dart';
 import 'package:kan_board_web/app/features/subjects/domain/entities/subject_entity.dart';
 import 'package:kan_board_web/app/features/subjects/domain/usecases/create_subject_usecase.dart';
+import 'package:kan_board_web/app/features/tasks/domain/entities/task_entity.dart';
+import 'package:kan_board_web/app/features/tasks/domain/usecases/create_task_usecase.dart';
 import 'package:kan_board_web/app/features/tasks/domain/usecases/move_task_usecase.dart';
 
 class DashboardCubit extends Cubit<DashboardState> {
@@ -17,6 +19,7 @@ class DashboardCubit extends Cubit<DashboardState> {
   final CreateSubjectUsecase _createSubject;
   final CreateDivisionUsecase _createDivision;
   final CreateContentUsecase _createContent;
+  final CreateTaskUsecase _createTask;
   final MoveTaskUsecase _moveTask;
 
   DashboardCubit({
@@ -24,11 +27,13 @@ class DashboardCubit extends Cubit<DashboardState> {
     required CreateSubjectUsecase createSubject,
     required CreateDivisionUsecase createDivision,
     required CreateContentUsecase createContent,
+    required CreateTaskUsecase createTask,
     required MoveTaskUsecase moveTask,
   }) : _getDashboard = getDashboard,
        _createSubject = createSubject,
        _createDivision = createDivision,
        _createContent = createContent,
+       _createTask = createTask,
        _moveTask = moveTask,
        super(DashboardInitial());
 
@@ -195,6 +200,69 @@ class DashboardCubit extends Cubit<DashboardState> {
 
       case FailureResult():
         break;
+    }
+  }
+
+  Future<void> createTask({
+    required String contentId,
+    required String title,
+  }) async {
+    final currentState = state;
+
+    if (currentState is! DashboardSuccess) return;
+
+    final result = await _createTask(
+      task: TaskEntity(
+        id: '',
+        title: title,
+        status: 'BACKLOG',
+        position: 0,
+        contentId: contentId,
+      ),
+    );
+
+    switch (result) {
+      case Success(data: final task):
+        final subjects = currentState.subjects.map((subject) {
+          return subject.copyWith(
+            divisions: subject.divisions.map((division) {
+              return division.copyWith(
+                contents: division.contents.map((content) {
+                  if (content.id != contentId) {
+                    return content;
+                  }
+
+                  return content.copyWith(
+                    tasks: [
+                      ...content.tasks,
+                      DashboardTaskEntity(
+                        id: task.id,
+                        title: task.title,
+                        status: task.status,
+                        position: task.position,
+                        estimatedMinutes: task.estimatedMinutes,
+                      ),
+                    ],
+                  );
+                }).toList(),
+              );
+            }).toList(),
+          );
+        }).toList();
+
+        emit(
+          DashboardSuccess(
+            goal: currentState.goal,
+            subjects: subjects,
+          ),
+        );
+
+      case FailureResult(failure: final failure):
+        emit(
+          DashboardError(
+            failure.message,
+          ),
+        );
     }
   }
 

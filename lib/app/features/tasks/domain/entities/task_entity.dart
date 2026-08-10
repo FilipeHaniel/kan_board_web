@@ -1,18 +1,24 @@
 class TaskEntity {
   final String id;
   final String title;
-  final String content;
-  final String division;
-  final String subject;
+  final String? content;
+  final String? division;
+  final String? subject;
   final String status;
+  final int position;
+  final int? estimatedMinutes;
+  final String contentId;
 
   TaskEntity({
     required this.id,
     required this.title,
-    required this.content,
-    required this.division,
-    required this.subject,
+    this.content,
+    this.division,
+    this.subject,
     required this.status,
+    required this.position,
+    this.estimatedMinutes,
+    required this.contentId,
   });
 
   TaskEntity copyWith({
@@ -22,6 +28,9 @@ class TaskEntity {
     String? status,
     String? subject,
     String? division,
+    int? position,
+    int? estimatedMinutes,
+    String? contentId,
   }) {
     return TaskEntity(
       id: id ?? this.id,
@@ -30,6 +39,9 @@ class TaskEntity {
       status: status ?? this.status,
       subject: subject ?? this.subject,
       division: division ?? this.division,
+      position: position ?? this.position,
+      estimatedMinutes: estimatedMinutes ?? this.estimatedMinutes,
+      contentId: contentId ?? this.contentId,
     );
   }
 }

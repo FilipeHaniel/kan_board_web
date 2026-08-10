@@ -59,6 +59,19 @@ class TasksDatasourceImpl implements TasksDatasource {
   }
 
   @override
+  Future<TaskModel> createTask(TaskModel task) async {
+    final response = await _httpClient.post(
+      '/tasks',
+      data: {
+        'title': task.title,
+        'contentId': task.contentId,
+      },
+    );
+
+    return TaskModel.fromJson(response);
+  }
+
+  @override
   Future<void> moveTask({
     required String taskId,
     required String status,

@@ -5,19 +5,25 @@ class TaskModel extends TaskEntity {
     required super.id,
     required super.title,
     required super.status,
-    required super.subject,
-    required super.division,
-    required super.content,
+    super.subject,
+    super.division,
+    super.content,
+    required super.position,
+    super.estimatedMinutes,
+    required super.contentId,
   });
 
   factory TaskModel.fromJson(Map<String, dynamic> json) {
     return TaskModel(
       id: json['id'],
       title: json['title'],
-      status: json['status'].toString().toLowerCase(),
+      status: json['status'].toString().toUpperCase(),
       subject: json['subject'],
       division: json['division'],
       content: json['content'],
+      position: json['position'],
+      estimatedMinutes: json['estimatedMinutes'],
+      contentId: json['contentId'],
     );
   }
 }
