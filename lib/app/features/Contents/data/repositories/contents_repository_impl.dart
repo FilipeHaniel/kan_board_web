@@ -1,9 +1,9 @@
 import 'package:kan_board_web/app/core/failures/server_failure.dart';
 import 'package:kan_board_web/app/core/result/result.dart';
-import 'package:kan_board_web/app/features/Contents/data/datasources/contents_datasource.dart';
-import 'package:kan_board_web/app/features/Contents/data/models/content_model.dart';
-import 'package:kan_board_web/app/features/Contents/domain/entities/content_entity.dart';
-import 'package:kan_board_web/app/features/Contents/domain/repositories/contents_repository.dart';
+import 'package:kan_board_web/app/features/contents/data/datasources/contents_datasource.dart';
+import 'package:kan_board_web/app/features/contents/data/models/content_model.dart';
+import 'package:kan_board_web/app/features/contents/domain/entities/content_entity.dart';
+import 'package:kan_board_web/app/features/contents/domain/repositories/contents_repository.dart';
 
 class ContentsRepositoryImpl implements ContentsRepository {
   final ContentsDatasource _datasource;
@@ -24,11 +24,11 @@ class ContentsRepositoryImpl implements ContentsRepository {
   }
 
   @override
-  Future<Result<void>> createContent(
+  Future<Result<ContentEntity>> createContent(
     ContentEntity content,
   ) async {
     try {
-      await _datasource.createContent(
+      final result = await _datasource.createContent(
         ContentModel(
           id: content.id,
           title: content.title,
@@ -39,7 +39,7 @@ class ContentsRepositoryImpl implements ContentsRepository {
         ),
       );
 
-      return const Success(null);
+      return Success(result);
     } catch (_) {
       return FailureResult(ServerFailure());
     }

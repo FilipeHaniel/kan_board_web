@@ -30,6 +30,7 @@ void setupDashboardDependencies(GetIt getIt) {
       moveTask: getIt(),
       createSubject: getIt(),
       createDivision: getIt(),
+      createContent: getIt(),
     ),
   );
 }

@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_board_web/app/core/result/result.dart';
+import 'package:kan_board_web/app/features/contents/domain/entities/content_entity.dart';
+import 'package:kan_board_web/app/features/contents/domain/usecases/create_content_usecase.dart';
 import 'package:kan_board_web/app/features/dashboard/domain/entities/dashboard_subject_entity.dart';
 import 'package:kan_board_web/app/features/dashboard/domain/usecases/get_dashboard_usecase.dart';
 import 'package:kan_board_web/app/features/dashboard/presentation/cubit/dashboard_state.dart';
@@ -14,16 +16,19 @@ class DashboardCubit extends Cubit<DashboardState> {
   final GetDashboardUsecase _getDashboard;
   final CreateSubjectUsecase _createSubject;
   final CreateDivisionUsecase _createDivision;
+  final CreateContentUsecase _createContent;
   final MoveTaskUsecase _moveTask;
 
   DashboardCubit({
     required GetDashboardUsecase getDashboard,
     required CreateSubjectUsecase createSubject,
     required CreateDivisionUsecase createDivision,
+    required CreateContentUsecase createContent,
     required MoveTaskUsecase moveTask,
   }) : _getDashboard = getDashboard,
        _createSubject = createSubject,
        _createDivision = createDivision,
+       _createContent = createContent,
        _moveTask = moveTask,
        super(DashboardInitial());
 
@@ -122,6 +127,62 @@ class DashboardCubit extends Cubit<DashboardState> {
                 contents: const [],
               ),
             ],
+          );
+        }).toList();
+
+        emit(
+          DashboardSuccess(
+            goal: currentState.goal,
+            subjects: subjects,
+          ),
+        );
+
+      case FailureResult():
+        break;
+    }
+  }
+
+  Future<void> createContent({
+    required String divisionId,
+    required String name,
+  }) async {
+    final currentState = state;
+
+    if (currentState is! DashboardSuccess) return;
+
+    final result = await _createContent(
+      ContentEntity(
+        id: '',
+        title: name,
+        divisionId: divisionId,
+        status: 'NOT_STARTED',
+        position: 0,
+        tasks: const [],
+      ),
+    );
+
+    switch (result) {
+      case Success(data: final content):
+        final subjects = currentState.subjects.map((subject) {
+          return subject.copyWith(
+            divisions: subject.divisions.map((division) {
+              if (division.id != divisionId) {
+                return division;
+              }
+
+              return division.copyWith(
+                contents: [
+                  ...division.contents,
+                  DashboardContentEntity(
+                    id: content.id,
+                    title: content.title,
+                    status: content.status,
+                    position: content.position,
+                    tasks: const [],
+                  ),
+                ],
+              );
+            }).toList(),
           );
         }).toList();
 

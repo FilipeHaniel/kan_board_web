@@ -7,6 +7,7 @@ import 'package:kan_board_web/app/core/logger/logger_service.dart';
 import 'package:kan_board_web/app/core/session/app_session.dart';
 import 'package:kan_board_web/app/core/storage/auth_storage.dart';
 import 'package:kan_board_web/app/core/storage/local_auth_storage.dart';
+import 'package:kan_board_web/app/features/Contents/contents_injector.dart';
 import 'package:kan_board_web/app/features/auth/auth_injector.dart';
 import 'package:kan_board_web/app/features/dashboard/dashboard_injector.dart';
 import 'package:kan_board_web/app/features/divisions/divisions_injector.dart';
@@ -49,4 +50,6 @@ Future<void> setupDependencies() async {
   setupSubjectsDependencies(getIt);
 
   setupDivisionsDependencies(getIt);
+
+  setupContentsDependencies(getIt);
 }

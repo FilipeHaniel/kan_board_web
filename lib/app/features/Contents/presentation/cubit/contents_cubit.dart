@@ -1,9 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kan_board_web/app/core/result/result.dart';
-import 'package:kan_board_web/app/features/Contents/domain/entities/content_entity.dart';
-import 'package:kan_board_web/app/features/Contents/domain/usecases/create_content_usecase.dart';
-import 'package:kan_board_web/app/features/Contents/domain/usecases/get_contents_usecase.dart';
-import 'package:kan_board_web/app/features/Contents/presentation/cubit/contents_state.dart';
+import 'package:kan_board_web/app/features/contents/domain/entities/content_entity.dart';
+import 'package:kan_board_web/app/features/contents/domain/usecases/create_content_usecase.dart';
+import 'package:kan_board_web/app/features/contents/domain/usecases/get_contents_usecase.dart';
+import 'package:kan_board_web/app/features/contents/presentation/cubit/contents_state.dart';
 
 class ContentsCubit extends Cubit<ContentsState> {
   final GetContentsUsecase _getContentsUsecase;

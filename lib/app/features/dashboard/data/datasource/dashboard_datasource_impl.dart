@@ -13,7 +13,7 @@ class DashboardDatasourceImpl implements DashboardDatasource {
   Future<List<DashboardSubjectModel>> getDashboard({
     required String goalId,
   }) async {
-    final response = await _httpClient.get('/goals/$goalId/tasks');
+    final response = await _httpClient.get('/goals/$goalId/dashboard');
 
     return (response as List)
         .map((e) => DashboardSubjectModel.fromJson(e))

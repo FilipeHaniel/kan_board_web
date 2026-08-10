@@ -1,4 +1,4 @@
-import 'package:kan_board_web/app/features/Contents/domain/entities/content_entity.dart';
+import 'package:kan_board_web/app/features/contents/domain/entities/content_entity.dart';
 import 'package:kan_board_web/app/features/tasks/data/models/task_model.dart';
 
 class ContentModel extends ContentEntity {

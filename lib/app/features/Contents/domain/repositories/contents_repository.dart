@@ -4,7 +4,5 @@ import '../entities/content_entity.dart';
 abstract class ContentsRepository {
   Future<Result<List<ContentEntity>>> getContents(String goalId);
 
-  Future<Result<void>> createContent(
-    ContentEntity content,
-  );
+  Future<Result<ContentEntity>> createContent(ContentEntity content);
 }

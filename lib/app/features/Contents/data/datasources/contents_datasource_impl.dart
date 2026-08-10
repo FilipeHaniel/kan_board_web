@@ -1,8 +1,8 @@
 import 'package:kan_board_web/app/core/exceptions/server_exception.dart';
 import 'package:kan_board_web/app/core/http/http_client.dart';
 import 'package:kan_board_web/app/core/logger/app_logger.dart';
-import 'package:kan_board_web/app/features/Contents/data/datasources/contents_datasource.dart';
-import 'package:kan_board_web/app/features/Contents/data/models/content_model.dart';
+import 'package:kan_board_web/app/features/contents/data/datasources/contents_datasource.dart';
+import 'package:kan_board_web/app/features/contents/data/models/content_model.dart';
 
 class ContentsDatasourceImpl implements ContentsDatasource {
   final HttpClient _httpClient;
@@ -35,17 +35,17 @@ class ContentsDatasourceImpl implements ContentsDatasource {
   }
 
   @override
-  Future<void> createContent(
-    ContentModel content,
-  ) async {
+  Future<ContentModel> createContent(ContentModel content) async {
     try {
-      await _httpClient.post(
+      final response = await _httpClient.post(
         '/contents',
         data: {
           'title': content.title,
           'divisionId': content.divisionId,
         },
       );
+
+      return ContentModel.fromJson(response);
     } catch (_) {
       _logger.error('Erro ao criar conteúdo');
 
