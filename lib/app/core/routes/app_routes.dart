@@ -3,4 +3,5 @@ class AppRoutes {
   static const login = '/login';
   static const goals = '/goals';
   static const dashboard = '/dashboard';
+  static const subject = '/subject';
 }

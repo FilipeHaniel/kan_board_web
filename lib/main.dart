@@ -9,9 +9,12 @@ import 'package:kan_board_web/app/core/routes/app_routes.dart';
 import 'package:kan_board_web/app/features/auth/presentation/cubit/login_cubit.dart';
 import 'package:kan_board_web/app/features/auth/presentation/pages/login_page.dart';
 import 'package:kan_board_web/app/features/auth/presentation/pages/splash_page.dart';
+import 'package:kan_board_web/app/features/dashboard/domain/entities/dashboard_subject_entity.dart';
+import 'package:kan_board_web/app/features/dashboard/presentation/cubit/dashboard_cubit.dart';
 import 'package:kan_board_web/app/features/goals/domain/entities/goal_entity.dart';
 import 'package:kan_board_web/app/features/goals/presentation/pages/goals_page.dart';
 import 'package:kan_board_web/app/features/dashboard/presentation/pages/dashboard_page.dart';
+import 'package:kan_board_web/app/features/subjects/presentation/pages/subject_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,6 +51,21 @@ class MyApp extends StatelessWidget {
 
           return DashboardPage(
             goal: goal,
+          );
+        },
+        AppRoutes.subject: (context) {
+          final arguments =
+              ModalRoute.of(context)!.settings.arguments
+                  as Map<String, dynamic>;
+
+          return BlocProvider(
+            create: (_) =>
+                getIt<DashboardCubit>()
+                  ..loadDashboard(arguments['goal'] as GoalEntity),
+            child: SubjectPage(
+              goal: arguments['goal'] as GoalEntity,
+              subject: arguments['subject'] as DashboardSubjectEntity,
+            ),
           );
         },
       },
