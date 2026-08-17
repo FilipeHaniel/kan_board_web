@@ -274,6 +274,8 @@ class DashboardCubit extends Cubit<DashboardState> {
 
     if (currentState is! DashboardSuccess) return;
 
+    final previousState = currentState;
+
     final subjects = currentState.subjects.map((subject) {
       return subject.copyWith(
         divisions: subject.divisions.map((division) {
@@ -296,7 +298,6 @@ class DashboardCubit extends Cubit<DashboardState> {
       );
     }).toList();
 
-    // Atualiza a UI imediatamente.
     emit(
       DashboardSuccess(
         goal: currentState.goal,
@@ -304,10 +305,23 @@ class DashboardCubit extends Cubit<DashboardState> {
       ),
     );
 
-    // Persiste no backend.
-    await _moveTask(
+    final result = await _moveTask(
       taskId: taskId,
       status: status,
     );
+
+    switch (result) {
+      case Success():
+        break;
+
+      case FailureResult(failure: final failure):
+        emit(previousState);
+
+        emit(
+          DashboardError(
+            failure.message,
+          ),
+        );
+    }
   }
 }
