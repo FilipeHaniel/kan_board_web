@@ -7,6 +7,7 @@ import 'package:kan_board_web/app/core/routes/app_routes.dart';
 import 'package:kan_board_web/app/features/dashboard/domain/entities/dashboard_subject_entity.dart';
 import 'package:kan_board_web/app/features/dashboard/presentation/cubit/dashboard_cubit.dart';
 import 'package:kan_board_web/app/features/dashboard/presentation/cubit/dashboard_state.dart';
+import 'package:kan_board_web/app/features/dashboard/presentation/widgets/create_subject_dialog.dart';
 import 'package:kan_board_web/app/features/dashboard/presentation/widgets/subject_card.dart';
 import 'package:kan_board_web/app/features/goals/domain/entities/goal_entity.dart';
 
@@ -40,8 +41,16 @@ class DashboardPage extends StatelessWidget {
                 _DashboardContent(
                   goal: goal,
                   subjects: subjects,
-                  onCreateSubject: () {
-                    // Vamos implementar depois.
+                  onCreateSubject: () async {
+                    await showDialog(
+                      context: context,
+                      builder: (_) => BlocProvider.value(
+                        value: context.read<DashboardCubit>(),
+                        child: CreateSubjectDialog(
+                          goal: goal,
+                        ),
+                      ),
+                    );
                   },
                   onSubjectTap: (subject) {
                     Navigator.pushNamed(

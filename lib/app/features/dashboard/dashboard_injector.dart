@@ -9,15 +9,11 @@ import 'package:kan_board_web/app/features/dashboard/presentation/cubit/dashboar
 
 void setupDashboardDependencies(GetIt getIt) {
   getIt.registerLazySingleton<DashboardDatasource>(
-    () => DashboardDatasourceImpl(
-      httpClient: getIt(),
-    ),
+    () => DashboardDatasourceImpl(httpClient: getIt()),
   );
 
   getIt.registerLazySingleton<DashboardRepository>(
-    () => DashboardRepositoryImpl(
-      datasource: getIt(),
-    ),
+    () => DashboardRepositoryImpl(datasource: getIt()),
   );
 
   getIt.registerLazySingleton<GetDashboardUsecase>(
