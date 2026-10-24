@@ -34,7 +34,7 @@ class ContentsRepositoryImpl implements ContentsRepository {
           title: content.title,
           status: content.status,
           position: content.position,
-          divisionId: content.divisionId,
+          subjectId: content.subjectId,
           tasks: content.tasks,
         ),
       );

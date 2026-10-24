@@ -5,7 +5,7 @@ class ContentEntity {
   final String title;
   final String status;
   final int position;
-  final String divisionId;
+  final String subjectId;
   final List<TaskEntity> tasks;
 
   const ContentEntity({
@@ -13,7 +13,7 @@ class ContentEntity {
     required this.title,
     required this.status,
     required this.position,
-    required this.divisionId,
+    required this.subjectId,
     required this.tasks,
   });
 }

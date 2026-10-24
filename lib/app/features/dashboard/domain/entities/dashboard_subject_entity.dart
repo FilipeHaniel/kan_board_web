@@ -1,44 +1,20 @@
 class DashboardSubjectEntity {
   final String id;
   final String name;
-  final List<DashboardDivisionEntity> divisions;
-
-  const DashboardSubjectEntity({
-    required this.id,
-    required this.name,
-    required this.divisions,
-  });
-
-  DashboardSubjectEntity copyWith({
-    String? id,
-    String? name,
-    List<DashboardDivisionEntity>? divisions,
-  }) {
-    return DashboardSubjectEntity(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      divisions: divisions ?? this.divisions,
-    );
-  }
-}
-
-class DashboardDivisionEntity {
-  final String id;
-  final String name;
   final List<DashboardContentEntity> contents;
 
-  const DashboardDivisionEntity({
+  const DashboardSubjectEntity({
     required this.id,
     required this.name,
     required this.contents,
   });
 
-  DashboardDivisionEntity copyWith({
+  DashboardSubjectEntity copyWith({
     String? id,
     String? name,
     List<DashboardContentEntity>? contents,
   }) {
-    return DashboardDivisionEntity(
+    return DashboardSubjectEntity(
       id: id ?? this.id,
       name: name ?? this.name,
       contents: contents ?? this.contents,

@@ -1,4 +1,5 @@
 import 'package:kan_board_web/app/core/http/http_client.dart';
+import 'package:kan_board_web/app/features/dashboard/data/models/dashboard_subject_model.dart';
 import 'package:kan_board_web/app/features/subjects/data/datasources/subjects_datasource.dart';
 import 'package:kan_board_web/app/features/subjects/data/model/subject_model.dart';
 
@@ -10,7 +11,7 @@ class SubjectsDatasourceImpl implements SubjectsDatasource {
   }) : _httpClient = httpClient;
 
   @override
-  Future<List<SubjectModel>> getSubjects(String goalId) async {
+  Future<List<DashboardSubjectModel>> getSubjects(String goalId) async {
     final response = await _httpClient.get(
       '/subjects',
       queryParameters: {
@@ -18,7 +19,9 @@ class SubjectsDatasourceImpl implements SubjectsDatasource {
       },
     );
 
-    return (response as List).map((e) => SubjectModel.fromJson(e)).toList();
+    return (response as List)
+        .map((e) => DashboardSubjectModel.fromJson(e))
+        .toList();
   }
 
   @override

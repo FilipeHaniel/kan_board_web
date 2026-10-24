@@ -25,7 +25,6 @@ void setupDashboardDependencies(GetIt getIt) {
       getDashboard: getIt(),
       moveTask: getIt(),
       createSubject: getIt(),
-      createDivision: getIt(),
       createContent: getIt(),
       createTask: getIt(),
     ),

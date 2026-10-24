@@ -4,7 +4,7 @@ import 'package:kan_board_web/app/core/design_system/foundations/typography/kanb
 import 'package:kan_board_web/app/core/design_system/primitives/button/kanboard_ds_button_inline_create_card.dart';
 import 'package:kan_board_web/app/features/dashboard/domain/entities/dashboard_subject_entity.dart';
 import 'package:kan_board_web/app/features/dashboard/presentation/cubit/dashboard_cubit.dart';
-import 'package:kan_board_web/app/features/dashboard/presentation/widgets/division_section.dart';
+import 'package:kan_board_web/app/features/dashboard/presentation/widgets/content_section.dart';
 
 class SubjectSection extends StatelessWidget {
   final DashboardSubjectEntity subject;
@@ -27,21 +27,21 @@ class SubjectSection extends StatelessWidget {
         ),
         const SizedBox(height: 8),
         KanboardDsInlineCreateCard(
-          buttonLabel: 'Nova divisão',
-          hint: 'Nome da divisão',
+          buttonLabel: 'Novo Conteúdo',
+          hint: 'Nome do conteúdo',
           onSave: (name) async {
-            await context.read<DashboardCubit>().createDivision(
+            await context.read<DashboardCubit>().createContent(
               subjectId: subject.id,
               name: name,
             );
           },
         ),
         const SizedBox(height: 24),
-        ...subject.divisions.map(
-          (division) => Padding(
+        ...subject.contents.map(
+          (content) => Padding(
             padding: const EdgeInsets.only(bottom: 32),
-            child: DivisionSection(
-              division: division,
+            child: ContentSection(
+              content: content,
               onTaskDropped: onTaskDropped,
             ),
           ),

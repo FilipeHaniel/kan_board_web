@@ -7,7 +7,7 @@ class ContentModel extends ContentEntity {
     required super.title,
     required super.status,
     required super.position,
-    required super.divisionId,
+    required super.subjectId,
     required super.tasks,
   });
 
@@ -17,7 +17,7 @@ class ContentModel extends ContentEntity {
       title: json['title'],
       status: json['status'],
       position: json['position'],
-      divisionId: json['divisionId'],
+      subjectId: json['subjectId'],
       tasks: (json['tasks'] as List).map((e) => TaskModel.fromJson(e)).toList(),
     );
   }

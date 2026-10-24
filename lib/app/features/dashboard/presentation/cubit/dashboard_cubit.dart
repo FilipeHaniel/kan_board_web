@@ -5,8 +5,6 @@ import 'package:kan_board_web/app/features/contents/domain/usecases/create_conte
 import 'package:kan_board_web/app/features/dashboard/domain/entities/dashboard_subject_entity.dart';
 import 'package:kan_board_web/app/features/dashboard/domain/usecases/get_dashboard_usecase.dart';
 import 'package:kan_board_web/app/features/dashboard/presentation/cubit/dashboard_state.dart';
-import 'package:kan_board_web/app/features/divisions/domain/entities/division_entity.dart';
-import 'package:kan_board_web/app/features/divisions/domain/usecases/create_division_usecase.dart';
 import 'package:kan_board_web/app/features/goals/domain/entities/goal_entity.dart';
 import 'package:kan_board_web/app/features/subjects/domain/entities/subject_entity.dart';
 import 'package:kan_board_web/app/features/subjects/domain/usecases/create_subject_usecase.dart';
@@ -17,7 +15,6 @@ import 'package:kan_board_web/app/features/tasks/domain/usecases/move_task_useca
 class DashboardCubit extends Cubit<DashboardState> {
   final GetDashboardUsecase _getDashboard;
   final CreateSubjectUsecase _createSubject;
-  final CreateDivisionUsecase _createDivision;
   final CreateContentUsecase _createContent;
   final CreateTaskUsecase _createTask;
   final MoveTaskUsecase _moveTask;
@@ -25,13 +22,11 @@ class DashboardCubit extends Cubit<DashboardState> {
   DashboardCubit({
     required GetDashboardUsecase getDashboard,
     required CreateSubjectUsecase createSubject,
-    required CreateDivisionUsecase createDivision,
     required CreateContentUsecase createContent,
     required CreateTaskUsecase createTask,
     required MoveTaskUsecase moveTask,
   }) : _getDashboard = getDashboard,
        _createSubject = createSubject,
-       _createDivision = createDivision,
        _createContent = createContent,
        _createTask = createTask,
        _moveTask = moveTask,
@@ -50,11 +45,7 @@ class DashboardCubit extends Cubit<DashboardState> {
         ),
       );
     } catch (_) {
-      emit(
-        DashboardError(
-          'Erro ao carregar dashboard',
-        ),
-      );
+      emit(DashboardError('Erro ao carregar dashboard'));
     }
   }
 
@@ -84,71 +75,19 @@ class DashboardCubit extends Cubit<DashboardState> {
               DashboardSubjectEntity(
                 id: subject.id,
                 name: subject.name,
-                divisions: const [],
+                contents: const [],
               ),
             ],
           ),
         );
 
       case FailureResult(failure: final failure):
-        emit(
-          DashboardError(
-            failure.message,
-          ),
-        );
-      // tratar erro
-    }
-  }
-
-  Future<void> createDivision({
-    required String subjectId,
-    required String name,
-  }) async {
-    final currentState = state;
-
-    if (currentState is! DashboardSuccess) return;
-
-    final result = await _createDivision(
-      division: DivisionEntity(
-        id: '',
-        name: name,
-        subjectId: subjectId,
-      ),
-    );
-
-    switch (result) {
-      case Success(data: final division):
-        final subjects = currentState.subjects.map((subject) {
-          if (subject.id != subjectId) {
-            return subject;
-          }
-
-          return subject.copyWith(
-            divisions: [
-              ...subject.divisions,
-              DashboardDivisionEntity(
-                id: division.id,
-                name: division.name,
-                contents: const [],
-              ),
-            ],
-          );
-        }).toList();
-
-        emit(
-          DashboardSuccess(
-            goal: currentState.goal,
-            subjects: subjects,
-          ),
-        );
-
-      case FailureResult():
-        break;
+        emit(DashboardError(failure.message));
     }
   }
 
   Future<void> createContent({
-    required String divisionId,
+    required String subjectId,
     required String name,
   }) async {
     final currentState = state;
@@ -159,7 +98,7 @@ class DashboardCubit extends Cubit<DashboardState> {
       ContentEntity(
         id: '',
         title: name,
-        divisionId: divisionId,
+        subjectId: subjectId,
         status: 'NOT_STARTED',
         position: 0,
         tasks: const [],
@@ -169,25 +108,21 @@ class DashboardCubit extends Cubit<DashboardState> {
     switch (result) {
       case Success(data: final content):
         final subjects = currentState.subjects.map((subject) {
-          return subject.copyWith(
-            divisions: subject.divisions.map((division) {
-              if (division.id != divisionId) {
-                return division;
-              }
+          if (subject.id != subjectId) {
+            return subject;
+          }
 
-              return division.copyWith(
-                contents: [
-                  ...division.contents,
-                  DashboardContentEntity(
-                    id: content.id,
-                    title: content.title,
-                    status: content.status,
-                    position: content.position,
-                    tasks: const [],
-                  ),
-                ],
-              );
-            }).toList(),
+          return subject.copyWith(
+            contents: [
+              ...subject.contents,
+              DashboardContentEntity(
+                id: content.id,
+                title: content.title,
+                status: content.status,
+                position: content.position,
+                tasks: const [],
+              ),
+            ],
           );
         }).toList();
 
@@ -198,8 +133,8 @@ class DashboardCubit extends Cubit<DashboardState> {
           ),
         );
 
-      case FailureResult():
-        break;
+      case FailureResult(failure: final failure):
+        emit(DashboardError(failure.message));
     }
   }
 
@@ -225,26 +160,22 @@ class DashboardCubit extends Cubit<DashboardState> {
       case Success(data: final task):
         final subjects = currentState.subjects.map((subject) {
           return subject.copyWith(
-            divisions: subject.divisions.map((division) {
-              return division.copyWith(
-                contents: division.contents.map((content) {
-                  if (content.id != contentId) {
-                    return content;
-                  }
+            contents: subject.contents.map((content) {
+              if (content.id != contentId) {
+                return content;
+              }
 
-                  return content.copyWith(
-                    tasks: [
-                      ...content.tasks,
-                      DashboardTaskEntity(
-                        id: task.id,
-                        title: task.title,
-                        status: task.status,
-                        position: task.position,
-                        estimatedMinutes: task.estimatedMinutes,
-                      ),
-                    ],
-                  );
-                }).toList(),
+              return content.copyWith(
+                tasks: [
+                  ...content.tasks,
+                  DashboardTaskEntity(
+                    id: task.id,
+                    title: task.title,
+                    status: task.status,
+                    position: task.position,
+                    estimatedMinutes: task.estimatedMinutes,
+                  ),
+                ],
               );
             }).toList(),
           );
@@ -258,11 +189,7 @@ class DashboardCubit extends Cubit<DashboardState> {
         );
 
       case FailureResult(failure: final failure):
-        emit(
-          DashboardError(
-            failure.message,
-          ),
-        );
+        emit(DashboardError(failure.message));
     }
   }
 
@@ -278,20 +205,14 @@ class DashboardCubit extends Cubit<DashboardState> {
 
     final subjects = currentState.subjects.map((subject) {
       return subject.copyWith(
-        divisions: subject.divisions.map((division) {
-          return division.copyWith(
-            contents: division.contents.map((content) {
-              return content.copyWith(
-                tasks: content.tasks.map((task) {
-                  if (task.id == taskId) {
-                    return task.copyWith(
-                      status: status,
-                    );
-                  }
+        contents: subject.contents.map((content) {
+          return content.copyWith(
+            tasks: content.tasks.map((task) {
+              if (task.id == taskId) {
+                return task.copyWith(status: status);
+              }
 
-                  return task;
-                }).toList(),
-              );
+              return task;
             }).toList(),
           );
         }).toList(),
@@ -316,12 +237,7 @@ class DashboardCubit extends Cubit<DashboardState> {
 
       case FailureResult(failure: final failure):
         emit(previousState);
-
-        emit(
-          DashboardError(
-            failure.message,
-          ),
-        );
+        emit(DashboardError(failure.message));
     }
   }
 }

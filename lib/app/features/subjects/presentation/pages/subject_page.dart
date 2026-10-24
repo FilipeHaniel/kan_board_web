@@ -45,40 +45,54 @@ class SubjectPage extends StatelessWidget {
           Expanded(
             child: BlocBuilder<DashboardCubit, DashboardState>(
               builder: (context, state) {
-                if (state is DashboardLoading) {
-                  return const Center(
+                return switch (state) {
+                  DashboardLoading() => const Center(
                     child: CircularProgressIndicator(),
-                  );
-                }
-
-                if (state is DashboardError) {
-                  return Center(
-                    child: Text(state.message),
-                  );
-                }
-
-                if (state is! DashboardSuccess) {
-                  return const SizedBox.shrink();
-                }
-
-                final currentSubject = state.subjects.firstWhere(
-                  (item) => item.id == subject.id,
-                );
-
-                return KanbanArea(
-                  subject: currentSubject,
-                  onTaskDropped: (task, status) {
-                    context.read<DashboardCubit>().moveTask(
-                      taskId: task.id,
-                      status: status,
-                    );
-                  },
-                );
+                  ),
+                  DashboardSuccess(:final subjects) => _buildKanban(
+                    context,
+                    subjects,
+                  ),
+                  DashboardError(:final message) => Center(
+                    child: Text(message),
+                  ),
+                  _ => const SizedBox.shrink(),
+                };
               },
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildKanban(
+    BuildContext context,
+    List<DashboardSubjectEntity> subjects,
+  ) {
+    DashboardSubjectEntity? currentSubject;
+
+    for (final item in subjects) {
+      if (item.id == subject.id) {
+        currentSubject = item;
+        break;
+      }
+    }
+
+    if (currentSubject == null) {
+      return const Center(
+        child: Text('Matéria não encontrada.'),
+      );
+    }
+
+    return KanbanArea(
+      subject: currentSubject,
+      onTaskDropped: (task, status) {
+        context.read<DashboardCubit>().moveTask(
+          taskId: task.id,
+          status: status,
+        );
+      },
     );
   }
 }

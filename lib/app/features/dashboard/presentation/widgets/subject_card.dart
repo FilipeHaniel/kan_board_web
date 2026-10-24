@@ -11,31 +11,12 @@ class SubjectCard extends StatelessWidget {
     required this.onTap,
   });
 
-  int get divisionsCount {
-    return subject.divisions.length;
-  }
-
-  int get contentsCount {
-    return subject.divisions.fold(
-      0,
-      (total, division) {
-        return total + division.contents.length;
-      },
-    );
-  }
+  int get contentsCount => subject.contents.length;
 
   int get tasksCount {
-    return subject.divisions.fold(
+    return subject.contents.fold(
       0,
-      (total, division) {
-        return total +
-            division.contents.fold(
-              0,
-              (total, content) {
-                return total + content.tasks.length;
-              },
-            );
-      },
+      (total, content) => total + content.tasks.length,
     );
   }
 
@@ -59,9 +40,7 @@ class SubjectCard extends StatelessWidget {
                     width: 44,
                     height: 44,
                     decoration: BoxDecoration(
-                      color: colorScheme.primary.withValues(
-                        alpha: 0.1,
-                      ),
+                      color: colorScheme.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(
@@ -90,8 +69,8 @@ class SubjectCard extends StatelessWidget {
               Row(
                 children: [
                   _SubjectStat(
-                    icon: Icons.account_tree_outlined,
-                    label: '$divisionsCount frentes',
+                    icon: Icons.menu_book_outlined,
+                    label: '$contentsCount conteúdos',
                   ),
                   const SizedBox(width: 16),
                   _SubjectStat(
@@ -100,16 +79,6 @@ class SubjectCard extends StatelessWidget {
                   ),
                 ],
               ),
-
-              if (contentsCount > 0) ...[
-                const SizedBox(height: 8),
-                Text(
-                  '$contentsCount conteúdos',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
             ],
           ),
         ),
@@ -140,10 +109,13 @@ class _SubjectStat extends StatelessWidget {
           color: colorScheme.onSurfaceVariant,
         ),
         const SizedBox(width: 6),
-        Text(
-          label,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: colorScheme.onSurfaceVariant,
+        Flexible(
+          child: Text(
+            label,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+            ),
           ),
         ),
       ],

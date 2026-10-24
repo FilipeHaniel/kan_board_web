@@ -1,5 +1,6 @@
 import 'package:kan_board_web/app/core/failures/server_failure.dart';
 import 'package:kan_board_web/app/core/result/result.dart';
+import 'package:kan_board_web/app/features/dashboard/domain/entities/dashboard_subject_entity.dart';
 import 'package:kan_board_web/app/features/subjects/data/datasources/subjects_datasource.dart';
 import 'package:kan_board_web/app/features/subjects/data/model/subject_model.dart';
 import 'package:kan_board_web/app/features/subjects/domain/entities/subject_entity.dart';
@@ -13,7 +14,7 @@ class SubjectsRepositoryImpl implements SubjectsRepository {
   }) : _datasource = datasource;
 
   @override
-  Future<Result<List<SubjectEntity>>> getSubjects(
+  Future<Result<List<DashboardSubjectEntity>>> getSubjects(
     String goalId,
   ) async {
     try {

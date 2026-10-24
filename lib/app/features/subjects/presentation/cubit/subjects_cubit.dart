@@ -35,7 +35,7 @@ class SubjectsCubit extends Cubit<SubjectsState> {
 
     switch (result) {
       case Success():
-        loadSubjects(subject.goalId);
+        await loadSubjects(subject.goalId);
 
       case FailureResult(failure: final failure):
         emit(SubjectsError(failure.message));
