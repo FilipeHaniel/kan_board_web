@@ -41,7 +41,7 @@ class ContentsDatasourceImpl implements ContentsDatasource {
         '/contents',
         data: {
           'title': content.title,
-          'divisionId': content.subjectId,
+          'subjectId': content.subjectId,
         },
       );
 
