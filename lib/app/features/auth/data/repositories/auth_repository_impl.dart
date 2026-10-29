@@ -39,14 +39,11 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
       );
 
-      final token = response.accessToken;
-
       await _storage.saveToken(
         response.accessToken,
       );
 
       _logger.info('Login successful for email: $email');
-      _logger.info('received token: $token');
 
       return Success(response.accessToken);
     } on UnauthorizedException {

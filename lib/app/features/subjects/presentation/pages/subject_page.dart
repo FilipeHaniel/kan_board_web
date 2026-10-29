@@ -38,6 +38,15 @@ class SubjectPage extends StatelessWidget {
                   subject.name,
                   style: KanBoardDSTextStyles.headlineLarge(context),
                 ),
+                const Spacer(),
+                FilledButton.icon(
+                  onPressed: () => _showCreateContentDialog(
+                    context,
+                    subject.id,
+                  ),
+                  icon: const Icon(Icons.add),
+                  label: const Text('Criar conteúdo'),
+                ),
               ],
             ),
           ),
@@ -85,54 +94,70 @@ class SubjectPage extends StatelessWidget {
       );
     }
 
-    // Estado vazio: ainda não existem conteúdos nesta matéria.
-    if (currentSubject.contents.isEmpty) {
-      return Center(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.library_add_outlined,
-                size: 64,
-                color: Theme.of(context).colorScheme.primary,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'Nenhum conteúdo cadastrado',
-                style: Theme.of(context).textTheme.titleLarge,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Crie o primeiro conteúdo para começar a organizar suas tarefas.',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-              const SizedBox(height: 24),
-              FilledButton.icon(
-                onPressed: () => _showCreateContentDialog(
-                  context,
-                  currentSubject!.id,
-                ),
-                icon: const Icon(Icons.add),
-                label: const Text('Criar conteúdo'),
-              ),
-            ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // Botão sempre visível, com ou sem conteúdos.
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 24,
+            vertical: 8,
           ),
+          // child: Align(
+          //   alignment: Alignment.centerRight,
+          //   child: FilledButton.icon(
+          //     onPressed: () => _showCreateContentDialog(
+          //       context,
+          //       currentSubject!.id,
+          //     ),
+          //     icon: const Icon(Icons.add),
+          //     label: const Text('Criar conteúdo'),
+          //   ),
+          // ),
         ),
-      );
-    }
 
-    return KanbanArea(
-      subject: currentSubject,
-      onTaskDropped: (task, status) {
-        context.read<DashboardCubit>().moveTask(
-          taskId: task.id,
-          status: status,
-        );
-      },
+        // Estado vazio ou quadro Kanban.
+        Expanded(
+          child: currentSubject.contents.isEmpty
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(24),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.library_add_outlined,
+                          size: 64,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Nenhum conteúdo cadastrado',
+                          style: Theme.of(context).textTheme.titleLarge,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Crie o primeiro conteúdo para começar '
+                          'a organizar suas tarefas.',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              : KanbanArea(
+                  subject: currentSubject,
+                  onTaskDropped: (task, status) {
+                    context.read<DashboardCubit>().moveTask(
+                      taskId: task.id,
+                      status: status,
+                    );
+                  },
+                ),
+        ),
+      ],
     );
   }
 
