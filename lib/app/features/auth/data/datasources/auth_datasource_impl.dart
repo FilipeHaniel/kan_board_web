@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:kan_board_web/app/core/exceptions/email_already_exists_exception.dart';
+import 'package:kan_board_web/app/core/exceptions/network_exception.dart';
 import 'package:kan_board_web/app/core/exceptions/server_exception.dart';
 import 'package:kan_board_web/app/core/exceptions/unauthorized_exception.dart';
 import 'package:kan_board_web/app/core/http/http_client.dart';
@@ -23,26 +25,59 @@ class AuthDatasourceImpl implements AuthDatasource {
     required String password,
   }) async {
     try {
-      _logger.info('Attempting login for email: $email');
-
       final response = await _httpClient.post(
         '/auth/login',
         data: {
+          'email': email.trim(),
+          'password': password,
+        },
+      );
+
+      return LoginModel.fromJson(response);
+    } on DioException catch (error) {
+      final statusCode = error.response?.statusCode;
+
+      if (statusCode == 401) {
+        throw UnauthorizedException();
+      }
+
+      if (error.response == null) {
+        throw NetworkException();
+      }
+
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<void> register({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _httpClient.post(
+        '/auth/register',
+        data: {
+          'name': name,
           'email': email,
           'password': password,
         },
       );
 
-      _logger.info('Login successful for email: $email');
-
-      _logger.info('LOGIN RESPONSE');
-      _logger.info(response.toString());
-
-      return LoginModel.fromJson(response);
+      _logger.info('Registration completed');
     } on DioException catch (error) {
-      _logger.error('Login failed for email: $email', error: error);
-      if (error.response?.statusCode == 401) {
-        throw UnauthorizedException();
+      _logger.error(
+        'Registration failed',
+        error: error,
+      );
+
+      if (error.response?.statusCode == 409) {
+        throw EmailAlreadyExistsException();
+      }
+
+      if (error.response == null) {
+        throw NetworkException();
       }
 
       throw ServerException();

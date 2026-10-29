@@ -1,6 +1,10 @@
+import 'package:kan_board_web/app/core/exceptions/email_already_exists_exception.dart';
+import 'package:kan_board_web/app/core/exceptions/email_already_exists_failure.dart';
 import 'package:kan_board_web/app/core/exceptions/network_exception.dart';
+import 'package:kan_board_web/app/core/exceptions/server_exception.dart';
 import 'package:kan_board_web/app/core/exceptions/unauthorized_exception.dart';
 import 'package:kan_board_web/app/core/failures/network_failure.dart';
+import 'package:kan_board_web/app/core/failures/server_failure.dart';
 import 'package:kan_board_web/app/core/failures/unauthorized_failure.dart';
 import 'package:kan_board_web/app/core/logger/app_logger.dart';
 import 'package:kan_board_web/app/core/result/result.dart';
@@ -57,6 +61,10 @@ class AuthRepositoryImpl implements AuthRepository {
       return FailureResult(
         NetworkFailure(),
       );
+    } on ServerException {
+      return FailureResult(
+        ServerFailure(),
+      );
     }
   }
 
@@ -76,6 +84,35 @@ class AuthRepositoryImpl implements AuthRepository {
       );
 
       rethrow;
+    }
+  }
+
+  @override
+  Future<Result<void>> register({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      await _datasource.register(
+        name: name,
+        email: email,
+        password: password,
+      );
+
+      return const Success<void>(null);
+    } on EmailAlreadyExistsException {
+      return FailureResult<void>(
+        EmailAlreadyExistsFailure(),
+      );
+    } on NetworkException {
+      return FailureResult<void>(
+        NetworkFailure(),
+      );
+    } on ServerException {
+      return FailureResult<void>(
+        NetworkFailure(),
+      );
     }
   }
 

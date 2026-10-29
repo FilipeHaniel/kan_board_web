@@ -119,6 +119,13 @@ class _LoginPageState extends State<LoginPage> {
                               onPressed: loading ? null : _login,
                             ),
                           ),
+                          const SizedBox(height: KanBoardDSSpacing.space16),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, AppRoutes.register);
+                            },
+                            child: const Text('Não tem uma conta? Criar conta'),
+                          ),
                         ],
                       ),
                     );

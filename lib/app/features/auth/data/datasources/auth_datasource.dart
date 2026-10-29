@@ -8,4 +8,10 @@ abstract class AuthDatasource {
   });
 
   Future<UserModel> user();
+
+  Future<void> register({
+    required String name,
+    required String email,
+    required String password,
+  });
 }

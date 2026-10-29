@@ -15,6 +15,8 @@ import 'package:kan_board_web/app/features/goals/domain/entities/goal_entity.dar
 import 'package:kan_board_web/app/features/goals/presentation/pages/goals_page.dart';
 import 'package:kan_board_web/app/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:kan_board_web/app/features/subjects/presentation/pages/subject_page.dart';
+import 'package:kan_board_web/app/features/auth/presentation/pages/register_page.dart';
+import 'package:kan_board_web/app/features/auth/presentation/cubit/register_cubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +46,10 @@ class MyApp extends StatelessWidget {
         AppRoutes.login: (_) => BlocProvider(
           create: (_) => getIt<LoginCubit>(),
           child: const LoginPage(),
+        ),
+        AppRoutes.register: (_) => BlocProvider(
+          create: (_) => getIt<RegisterCubit>(),
+          child: const RegisterPage(),
         ),
         AppRoutes.goals: (_) => const GoalsPage(),
         AppRoutes.dashboard: (context) {

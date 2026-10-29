@@ -15,6 +15,9 @@ import 'package:kan_board_web/app/features/auth/domain/usecases/logout_usecase.d
 import 'package:kan_board_web/app/features/auth/domain/usecases/logout_usecase_impl.dart';
 import 'package:kan_board_web/app/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:kan_board_web/app/features/auth/presentation/cubit/login_cubit.dart';
+import 'package:kan_board_web/app/features/auth/domain/usecases/register_usecase.dart';
+import 'package:kan_board_web/app/features/auth/domain/usecases/register_usecase_impl.dart';
+import 'package:kan_board_web/app/features/auth/presentation/cubit/register_cubit.dart';
 
 void setupAuthDependencies(GetIt getIt) {
   getIt.registerLazySingleton<AuthDatasource>(
@@ -47,6 +50,19 @@ void setupAuthDependencies(GetIt getIt) {
   getIt.registerLazySingleton<LogoutUsecase>(
     () => LogoutUsecaseImpl(
       repository: getIt<AuthRepository>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<RegisterUsecase>(
+    () => RegisterUsecaseImpl(
+      repository: getIt<AuthRepository>(),
+    ),
+  );
+
+  getIt.registerFactory<RegisterCubit>(
+    () => RegisterCubit(
+      usecase: getIt<RegisterUsecase>(),
+      logger: getIt<AppLogger>(),
     ),
   );
 
