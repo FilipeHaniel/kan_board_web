@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/typography/kanboard_ds_text_styles.dart';
 import 'package:kan_board_web/app/core/layout/content/study_card.dart';
 import 'package:kan_board_web/app/features/dashboard/domain/entities/dashboard_subject_entity.dart';
 
@@ -37,10 +38,7 @@ class KanbanColumn extends StatelessWidget {
               children: [
                 Text(
                   '$title (${tasks.length})',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: KanBoardDSTextStyles.titleMedium(context),
                 ),
                 const SizedBox(height: 16),
                 Expanded(

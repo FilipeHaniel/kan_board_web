@@ -97,26 +97,12 @@ class SubjectPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // Botão sempre visível, com ou sem conteúdos.
         Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 24,
             vertical: 8,
           ),
-          // child: Align(
-          //   alignment: Alignment.centerRight,
-          //   child: FilledButton.icon(
-          //     onPressed: () => _showCreateContentDialog(
-          //       context,
-          //       currentSubject!.id,
-          //     ),
-          //     icon: const Icon(Icons.add),
-          //     label: const Text('Criar conteúdo'),
-          //   ),
-          // ),
         ),
-
-        // Estado vazio ou quadro Kanban.
         Expanded(
           child: currentSubject.contents.isEmpty
               ? Center(

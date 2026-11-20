@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/typography/kanboard_ds_text_styles.dart';
 import 'package:kan_board_web/app/core/design_system/primitives/button/kanboard_ds_button_inline_create_card.dart';
 import 'package:kan_board_web/app/core/layout/content/kanban_column.dart';
 import 'package:kan_board_web/app/features/dashboard/domain/entities/dashboard_subject_entity.dart';
@@ -20,7 +21,10 @@ class ContentSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(content.title),
+        Text(
+          content.title,
+          style: KanBoardDSTextStyles.titleLarge(context),
+        ),
         const SizedBox(height: 12),
         Row(
           children: [
@@ -54,6 +58,12 @@ class ContentSection extends StatelessWidget {
               title: title,
             );
           },
+        ),
+        SizedBox(height: 16),
+        const Divider(
+          thickness: 1,
+          indent: 16,
+          endIndent: 16,
         ),
       ],
     );

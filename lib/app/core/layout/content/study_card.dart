@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kan_board_web/app/core/design_system/foundations/typography/kanboard_ds_text_styles.dart';
 import 'package:kan_board_web/app/features/dashboard/domain/entities/dashboard_subject_entity.dart';
 
 class StudyCard extends StatelessWidget {
@@ -39,7 +40,10 @@ class _Card extends StatelessWidget {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
-        child: Text(task.title),
+        child: Text(
+          task.title,
+          style: KanBoardDSTextStyles.labelLarge(context),
+        ),
       ),
     );
   }
