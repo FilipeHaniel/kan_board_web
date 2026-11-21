@@ -18,7 +18,7 @@ class AppSidebar extends StatelessWidget {
         ),
       ),
       padding: const EdgeInsets.all(20),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SidebarLogo(),
@@ -26,6 +26,7 @@ class AppSidebar extends StatelessWidget {
           SidebarNavigationItem(
             icon: Icons.dashboard_outlined,
             label: 'Dashboard',
+            // onTap: () => Navigator.of(context).pop(),
           ),
           SidebarNavigationItem(
             icon: Icons.menu_book_outlined,
